@@ -9,11 +9,11 @@ function [lambda_vec, error_train, error_val] = randomValidationCurve(X, y, lamb
   
   % Selects the evaluation and training set separately.
   for i = 1 : NUM_ITER
-     new_order = randperm(numel(X));
+     new_order = randperm(size(X, 1))';
      X = X(new_order);
      y = y(new_order);
-     [i_train_error, i_val_error] = computeErrors(X(1:HALF_M), y(1:HALF_M), ...
-                                                  X(HALF_M+1, end), y(HALF_M+1, end), lambda_vec);
+     [i_train_error, i_val_error] = computeErrors(X(1:HALF_M,:), y(1:HALF_M,:), ...
+                                                  X(HALF_M+1:end,:), y(HALF_M+1:end,:), lambda_vec);
      error_train = error_train + i_train_error;
      error_val = error_val + i_val_error;
   endfor
@@ -30,10 +30,9 @@ function [error_train, error_val] = computeErrors(X, y, Xval, yval, lambda_vec)
   error_val = zeros(length(lambda_vec), 1);
   
   for l = 1 : numel(lambda_vec)
-    lambda_vec
     theta = trainLinearReg(X, y, lambda_vec(l));
-    error_train(l) = linearRegCostFunction(X, y, theta, 0)
-    error_val(l) = linearRegCostFunction(Xval, yval, theta, 0)
+    error_train(l) = linearRegCostFunction(X, y, theta, 0);
+    error_val(l) = linearRegCostFunction(Xval, yval, theta, 0);
   endfor
 end 
 
