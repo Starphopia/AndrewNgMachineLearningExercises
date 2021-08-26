@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head ><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(e){this.triggerEvents=e,this.eventOptions={passive:!0},this.userEventListener=this.triggerListener.bind(this),this.delayedScripts={normal:[],async:[],defer:[]},this.allJQueries=[]}_addUserInteractionListener(e){this.triggerEvents.forEach((t=>window.addEventListener(t,e.userEventListener,e.eventOptions)))}_removeUserInteractionListener(e){this.triggerEvents.forEach((t=>window.removeEventListener(t,e.userEventListener,e.eventOptions)))}triggerListener(){this._removeUserInteractionListener(this),this._loadEverythingNow()}async _loadEverythingNow(){this._delayEventListeners(),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async),await this._triggerDOMContentLoaded(),await this._triggerWindowLoad(),window.dispatchEvent(new Event("rocket-allScriptsLoaded"))}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((e=>{e.hasAttribute("src")?e.hasAttribute("async")&&!1!==e.async?this.delayedScripts.async.push(e):e.hasAttribute("defer")&&!1!==e.defer||"module"===e.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(e):this.delayedScripts.normal.push(e):this.delayedScripts.normal.push(e)}))}async _transformScript(e){return await this._requestAnimFrame(),new Promise((t=>{const n=document.createElement("script");let i;[...e.attributes].forEach((e=>{let t=e.nodeName;"type"!==t&&("data-rocket-type"===t&&(t="type",i=e.nodeValue),n.setAttribute(t,e.nodeValue))})),e.hasAttribute("src")&&this._isValidScriptType(i)?(n.addEventListener("load",t),n.addEventListener("error",t)):(n.text=e.text,t()),e.parentNode.replaceChild(n,e)}))}_isValidScriptType(e){return!e||""===e||"string"==typeof e&&["text/javascript","text/x-javascript","text/ecmascript","text/jscript","application/javascript","application/x-javascript","application/ecmascript","application/jscript","module"].includes(e.toLowerCase())}async _loadScriptsFromList(e){const t=e.shift();return t?(await this._transformScript(t),this._loadScriptsFromList(e)):Promise.resolve()}_preloadAllScripts(){var e=document.createDocumentFragment();[...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async].forEach((t=>{const n=t.getAttribute("src");if(n){const t=document.createElement("link");t.href=n,t.rel="preload",t.as="script",e.appendChild(t)}})),document.head.appendChild(e)}_delayEventListeners(){let e={};function t(t,n){!function(t){function n(n){return e[t].eventsToRewrite.indexOf(n)>=0?"rocket-"+n:n}e[t]||(e[t]={originalFunctions:{add:t.addEventListener,remove:t.removeEventListener},eventsToRewrite:[]},t.addEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.add.apply(t,arguments)},t.removeEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.remove.apply(t,arguments)})}(t),e[t].eventsToRewrite.push(n)}function n(e,t){const n=e[t];Object.defineProperty(e,t,{get:n||function(){},set:n=>{e["rocket"+t]=n}})}t(document,"DOMContentLoaded"),t(window,"DOMContentLoaded"),t(window,"load"),t(window,"pageshow"),t(document,"readystatechange"),n(document,"onreadystatechange"),n(window,"onload"),n(window,"onpageshow")}_delayJQueryReady(e){let t=window.jQuery;Object.defineProperty(window,"jQuery",{get:()=>t,set(n){if(n&&n.fn&&!e.allJQueries.includes(n)){n.fn.ready=n.fn.init.prototype.ready=function(t){e.domReadyFired?t.bind(document)(n):document.addEventListener("rocket-DOMContentLoaded",(()=>t.bind(document)(n)))};const t=n.fn.on;n.fn.on=n.fn.init.prototype.on=function(){if(this[0]===window){function e(e){return e.split(" ").map((e=>"load"===e||0===e.indexOf("load.")?"rocket-jquery-load":e)).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=e(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach((t=>{delete Object.assign(arguments[0],{[e(t)]:arguments[0][t]})[t]}))}return t.apply(this,arguments),this},e.allJQueries.push(n)}t=n}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._requestAnimFrame(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._requestAnimFrame(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._requestAnimFrame(),window.dispatchEvent(new Event("rocket-load")),await this._requestAnimFrame(),window.rocketonload&&window.rocketonload(),await this._requestAnimFrame(),this.allJQueries.forEach((e=>e(window).trigger("rocket-jquery-load"))),window.dispatchEvent(new Event("rocket-pageshow")),await this._requestAnimFrame(),window.rocketonpageshow&&window.rocketonpageshow()}_handleDocumentWrite(){const e=new Map;document.write=document.writeln=function(t){const n=document.currentScript,i=document.createRange(),r=n.parentElement;let a=e.get(n);void 0===a&&(a=n.nextSibling,e.set(n,a));const o=document.createDocumentFragment();i.setStart(o,0),o.appendChild(i.createContextualFragment(t)),r.insertBefore(o,a)}}async _requestAnimFrame(){return new Promise((e=>requestAnimationFrame(e)))}static run(){const e=new RocketLazyLoadScripts(["keydown","mouseover","touchmove","touchstart","touchend","touchcancel","touchforcechange","wheel"]);e._addUserInteractionListener(e)}}RocketLazyLoadScripts.run();
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.7 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>All-Natural Steamed Custard Buns (Lai Wong Bao) | Sift &amp; Simmer</title><link rel="stylesheet" href="https://www.siftandsimmer.com/wp-content/cache/min/1/870a05526cf0e9e9153361078f6f2cc6.css" media="all" data-minify="1" />
+	<meta name="description" content="Homemade all-natural custard buns made without artificial custard powder. Rich, silky, lightly sweet custard in a fluffy steamed bun." />
+	<link rel="canonical" href="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="All-Natural Steamed Custard Buns (Lai Wong Bao) | Sift &amp; Simmer" />
+	<meta property="og:description" content="Homemade all-natural custard buns made without artificial custard powder. Rich, silky, lightly sweet custard in a fluffy steamed bun." />
+	<meta property="og:url" content="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/" />
+	<meta property="og:site_name" content="Sift &amp; Simmer" />
+	<meta property="article:published_time" content="2017-11-22T20:01:03+00:00" />
+	<meta property="article:modified_time" content="2020-11-15T18:55:43+00:00" />
+	<meta property="og:image" content="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg" />
+	<meta property="og:image:width" content="682" />
+	<meta property="og:image:height" content="1024" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:label1" content="Written by" />
+	<meta name="twitter:data1" content="Michelle" />
+	<meta name="twitter:label2" content="Est. reading time" />
+	<meta name="twitter:data2" content="6 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.siftandsimmer.com/#website","url":"https://www.siftandsimmer.com/","name":"Sift &amp; Simmer","description":"Matcha, tea-infused baking recipes &amp; Asian favourites","publisher":{"@id":"https://www.siftandsimmer.com/#/schema/person/67226674cf2788d994a901ea737aa538"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.siftandsimmer.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#primaryimage","inLanguage":"en-US","url":"https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg","contentUrl":"https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg","width":682,"height":1024,"caption":"Custard Bun Lai Wong Bao 3 | Sift & Simmer"},{"@type":"WebPage","@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#webpage","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/","name":"All-Natural Steamed Custard Buns (Lai Wong Bao) | Sift &amp; Simmer","isPartOf":{"@id":"https://www.siftandsimmer.com/#website"},"primaryImageOfPage":{"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#primaryimage"},"datePublished":"2017-11-22T20:01:03+00:00","dateModified":"2020-11-15T18:55:43+00:00","description":"Homemade all-natural custard buns made without artificial custard powder. Rich, silky, lightly sweet custard in a fluffy steamed bun.","breadcrumb":{"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/"]}]},{"@type":"BreadcrumbList","@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.siftandsimmer.com/"},{"@type":"ListItem","position":2,"name":"All-Natural Steamed Custard Buns (Lai Wong Bao)"}]},{"@type":"Article","@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#article","isPartOf":{"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#webpage"},"author":{"@id":"https://www.siftandsimmer.com/#/schema/person/67226674cf2788d994a901ea737aa538"},"headline":"All-Natural Steamed Custard Buns (Lai Wong Bao)","datePublished":"2017-11-22T20:01:03+00:00","dateModified":"2020-11-15T18:55:43+00:00","wordCount":1129,"commentCount":4,"publisher":{"@id":"https://www.siftandsimmer.com/#/schema/person/67226674cf2788d994a901ea737aa538"},"image":{"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#primaryimage"},"thumbnailUrl":"https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg","articleSection":["Breads &amp; Buns"],"inLanguage":"en-US","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#respond"]}]},{"@type":["Person","Organization"],"@id":"https://www.siftandsimmer.com/#/schema/person/67226674cf2788d994a901ea737aa538","name":"Michelle","image":{"@type":"ImageObject","@id":"https://www.siftandsimmer.com/#personlogo","inLanguage":"en-US","url":"https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=96&d=mm&r=g","caption":"Michelle"},"logo":{"@id":"https://www.siftandsimmer.com/#personlogo"},"sameAs":["https://www.siftandsimmer.com/about/","https://www.instagram.com/siftandsimmer"]},{"@context":"http://schema.org/","@type":"Recipe","name":"All-Natural Steamed Custard Buns (Lai Wong Bao)","author":{"@type":"Person","name":"Michelle | Sift & Simmer"},"description":"Homemade all-natural custard buns made without artificial custard powder. Rich, silky, lightly sweet custard in a fluffy steamed bun.","datePublished":"2017-11-22T12:01:03+00:00","image":["https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1.jpg","https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-500x500.jpg","https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-500x375.jpg","https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-480x270.jpg"],"recipeYield":["10"],"prepTime":"PT120M","cookTime":"PT45M","totalTime":"PT165M","recipeIngredient":["2  egg yolks","1 tsp vanilla extract (or 1/4 tsp vanilla paste)","3/4 C coconut milk (you can omit and just use milk instead)","1/2 C whole milk","1/4 C + 2 tsp granulated sugar","2 Tbsp corn starch","1 Tbsp all-purpose flour","1 tsp coconut oil","2 Tbsp pumpkin puree","250 g all-purpose flour","140 g warm water","5 g active dry yeast","1 tsp baking powder","10 g granulated sugar","5 g vegetable oil"],"recipeInstructions":[{"@type":"HowToSection","name":"Custard:","itemListElement":[{"@type":"HowToStep","text":"In a small saucepan, combine the coconut milk, milk, coconut oil, and pumpkin puree and stir over medium heat.","name":"In a small saucepan, combine the coconut milk, milk, coconut oil, and pumpkin puree and stir over medium heat.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-0"},{"@type":"HowToStep","text":"In a small glass bowl, place the egg yolks, vanilla, sugar, cornstarch and flour and whisk together. Place the bowl on a damp dishcloth.","name":"In a small glass bowl, place the egg yolks, vanilla, sugar, cornstarch and flour and whisk together. Place the bowl on a damp dishcloth.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-1"},{"@type":"HowToStep","text":"When the coconut milk is heated through, gradually drizzle the hot milk over the egg yolks and whisk constantly (to temper the eggs). Keep whisking while you pour the rest of the milk to remove any lumps.","name":"When the coconut milk is heated through, gradually drizzle the hot milk over the egg yolks and whisk constantly (to temper the eggs). Keep whisking while you pour the rest of the milk to remove any lumps.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-2"},{"@type":"HowToStep","text":"Gently pour the mixture back into the saucepan and continue to whisk over low heat. The mixture will start to thicken. You can tell it is thick enough when a spoon dipped into the mixture will sustain a line drawn\u00a0on the back of it.","name":"Gently pour the mixture back into the saucepan and continue to whisk over low heat. The mixture will start to thicken. You can tell it is thick enough when a spoon dipped into the mixture will sustain a line drawn\u00a0on the back of it.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-3"},{"@type":"HowToStep","text":"Remove from heat and put the mixture through a sieve to remove any remaining lumps and into a clean bowl.","name":"Remove from heat and put the mixture through a sieve to remove any remaining lumps and into a clean bowl.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-4"},{"@type":"HowToStep","text":"Let cool. Place a piece of plastic wrap over top of the custard and place into the refrigerator overnight.","name":"Let cool. Place a piece of plastic wrap over top of the custard and place into the refrigerator overnight.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-5"},{"@type":"HowToStep","text":"The next day, remove the custard from the refrigerator and use a small ice cream scoop to form balls. Place the balls onto a piece of plastic wrap and enclose to keep its shape. Repeat with the remaining custard.","name":"The next day, remove the custard from the refrigerator and use a small ice cream scoop to form balls. Place the balls onto a piece of plastic wrap and enclose to keep its shape. Repeat with the remaining custard.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-6"},{"@type":"HowToStep","text":"Place the plastic-wrapped custard balls into the freezer until ready to use.","name":"Place the plastic-wrapped custard balls into the freezer until ready to use.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-0-7"}]},{"@type":"HowToSection","name":"Dough:","itemListElement":[{"@type":"HowToStep","text":"In a stand mixer bowl, combine flour, baking powder and oil.","name":"In a stand mixer bowl, combine flour, baking powder and oil.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-0"},{"@type":"HowToStep","text":"In a small bowl, add the warm water, sugar, and yeast. Let the yeast activate and become bubbly.","name":"In a small bowl, add the warm water, sugar, and yeast. Let the yeast activate and become bubbly.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-1"},{"@type":"HowToStep","text":"Once the yeast has activated, with the mixer running on low, add it to the flour mixture. Knead until the dough is smooth and elastic, about 5 minutes. If the dough is too wet, add a little more flour. If the dough is too dry, add 1 tsp of water at a time until you obtain the correct consistency.","name":"Once the yeast has activated, with the mixer running on low, add it to the flour mixture. Knead until the dough is smooth and elastic, about 5 minutes. If the dough is too wet, add a little more flour. If the dough is too dry, add 1 tsp of water at a time until you obtain the correct consistency.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-2"},{"@type":"HowToStep","text":"Lightly grease a medium glass bowl and place the the dough into it. Cover and let it proof in a warm place for about 1 hour or until almost doubled in bulk.","name":"Lightly grease a medium glass bowl and place the the dough into it. Cover and let it proof in a warm place for about 1 hour or until almost doubled in bulk.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-3"},{"@type":"HowToStep","text":"Once dough has risen, divide into portions of ~50g each. Roll each dough portion into a smooth ball and flatten the edges to form a disc with a hump in the middle.","name":"Once dough has risen, divide into portions of ~50g each. Roll each dough portion into a smooth ball and flatten the edges to form a disc with a hump in the middle.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-4"},{"@type":"HowToStep","text":"Remove the custard filling balls from the freezer and place one custard ball in the middle of the dough. Carefully bring up the edges of the dough and pleat around it, sealing up the filling.","name":"Remove the custard filling balls from the freezer and place one custard ball in the middle of the dough. Carefully bring up the edges of the dough and pleat around it, sealing up the filling.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-5"},{"@type":"HowToStep","text":"Place the dough with the pleats facing down onto a square piece of parchment paper, approximately 3\" by 3\" in size.","name":"Place the dough with the pleats facing down onto a square piece of parchment paper, approximately 3\" by 3\" in size.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-6"},{"@type":"HowToStep","text":"Repeat with the remaining dough and filling.","name":"Repeat with the remaining dough and filling.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-7"},{"@type":"HowToStep","text":"Place the custard buns (with the parchment) onto a steamer rack or a bamboo steamer.","name":"Place the custard buns (with the parchment) onto a steamer rack or a bamboo steamer.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-8"},{"@type":"HowToStep","text":"Let rest for about 20-30 minutes, until dough has risen slightly.","name":"Let rest for about 20-30 minutes, until dough has risen slightly.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-9"},{"@type":"HowToStep","text":"Use large pot or wok with just enough water and set your steaming rack over top of it. Turn on the heat to high and steam for 15 minutes.","name":"Use large pot or wok with just enough water and set your steaming rack over top of it. Turn on the heat to high and steam for 15 minutes.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-10"},{"@type":"HowToStep","text":"Turn off the heat and let it rest for 5 minutes without opening the lid. (This is to prevent the buns from collapsing).","name":"Turn off the heat and let it rest for 5 minutes without opening the lid. (This is to prevent the buns from collapsing).","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-11"},{"@type":"HowToStep","text":"Remove from heat and let cool. Enjoy the custard buns immediately.","name":"Remove from heat and let cool. Enjoy the custard buns immediately.","url":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#wprm-recipe-6657-step-1-12"}]}],"recipeCategory":["Breakfast","Snack"],"recipeCuisine":["Asian"],"keywords":"buns, custard, custard buns, steamed buns","nutrition":{"@type":"NutritionInformation","calories":"191 kcal","carbohydrateContent":"29 g","proteinContent":"4 g","fatContent":"6 g","saturatedFatContent":"5 g","cholesterolContent":"40 mg","sodiumContent":"54 mg","fiberContent":"1 g","sugarContent":"7 g","servingSize":"1 serving"},"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#recipe","isPartOf":{"@id":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#article"},"mainEntityOfPage":"https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#webpage"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//scripts.mediavine.com' />
+<link rel='dns-prefetch' href='//google-analytics.com' />
+<link rel='dns-prefetch' href='//www.google-analytics.com' />
+<link rel='dns-prefetch' href='//ssl.google-analytics.com' />
+
+<link rel="alternate" type="application/rss+xml" title="Sift &amp; Simmer &raquo; Feed" href="https://www.siftandsimmer.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Sift &amp; Simmer &raquo; Comments Feed" href="https://www.siftandsimmer.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Sift &amp; Simmer &raquo; All-Natural Steamed Custard Buns (Lai Wong Bao) Comments Feed" href="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/feed/" />
+
+<style id='foodie-pro-theme-inline-css' type='text/css'>
+a, .entry-meta a, .post-info a, .post-meta a, .site-footer a, .entry-content a{color:#000000;}a:hover, .entry-meta a:hover, .post-info a:hover, .post-meta a:hover, .site-footer a:hover{color:#b49543;}.genesis-nav-menu > li > a:hover, .genesis-nav-menu > .current-menu-item > a{color:#b49543;}
+</style>
+
+
+
+<style id='lazyload-video-css-inline-css' type='text/css'>
+.entry-content a.lazy-load-youtube, a.lazy-load-youtube, .lazy-load-vimeo{ background-size: cover; }.titletext.youtube { display: none; }.lazy-load-div:before { content: "\25B6"; text-shadow: 0px 0px 60px rgba(0,0,0,0.8); }
+</style>
+
+
+<script type='text/javascript' async="async" data-noptimize="1" data-cfasync="false" src='https://scripts.mediavine.com/tags/sift-and-simmer.js?ver=5.7.1' id='mv-script-wrapper-js'></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/svgxuse.js?ver=1.1.21' id='svg-x-use-js' defer></script>
+<script type='text/javascript' id='cookie-notice-front-js-extra'>
+/* <![CDATA[ */
+var cnArgs = {"ajaxUrl":"https:\/\/www.siftandsimmer.com\/wp-admin\/admin-ajax.php","nonce":"827db4a491","hideEffect":"fade","position":"top","onScroll":"1","onScrollOffset":"100","onClick":"0","cookieName":"cookie_notice_accepted","cookieTime":"2592000","cookieTimeRejected":"2592000","cookiePath":"\/","cookieDomain":"","redirection":"0","cache":"1","refuse":"0","revokeCookies":"0","revokeCookiesOpt":"automatic","secure":"1"};
+/* ]]> */
+</script>
+<script async type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/cookie-notice/includes/../js/front.min.js?ver=2.1.2' id='cookie-notice-front-js'></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js' defer></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js' defer></script>
+<link rel="https://api.w.org/" href="https://www.siftandsimmer.com/wp-json/" /><link rel="alternate" type="application/json" href="https://www.siftandsimmer.com/wp-json/wp/v2/posts/1479" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.siftandsimmer.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.siftandsimmer.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.7.1" />
+<link rel='shortlink' href='https://www.siftandsimmer.com/?p=1479' />
+<style id='feast-blockandfront-styles'>.feast-about-author { background-color: #f2f2f2; color: #32373c; padding: 17px; margin-top: 57px; display: grid; grid-template-columns: 1fr 3fr !important; } .feast-about-author h2 { margin-top: 7px !important;} .feast-about-author img{ border-radius: 50%; }aside .feast-about-author { grid-template-columns: 1fr !important; }.wp-block-search .wp-block-search__input { max-width: 100%; }.screen-reader-text { width: 1px; height: 1px; }footer ul li, .site-footer ul li { list-style-type: none; }footer ul li, .site-footer ul li { list-style-type: none; }aside .wp-block-search { display: grid; grid-template-columns: 2fr 1fr; margin: 37px 0;  } aside .wp-block-search__label { display: none; } aside li:before { content: '' !important; }@media only screen and (max-width: 600px) { aside .wp-block-search { grid-template-columns: 1fr; } aside input { min-height: 50px; margin-bottom: 17px;} }.feast-button a { border: 2px solid var(--feast-branding-primary-background); padding: 7px 14px; border-radius: 20px; background: var(--feast-branding-primary); color: var(--feast-branding-primary-background); text-decoration: none !important; font-weight: bold; } .feast-button { padding: 27px 7px; }.feast-box-primary { color: var( --feast-branding-primary ) !important; background: var(--feast-branding-primary-background) !important; padding: 17px !important; margin: 17px 0 !important;  }.feast-box-secondary { color: var( --feast-branding-secondary ) !important; background: var(--feast-branding-secondary-background) !important; padding: 17px !important; margin: 17px 0 !important;  }.feast-box-primary li, .feast-box-secondary li {margin-left: 17px !important; }.feast-checklist li::marker { color: #FFF; } .feast-checklist li:before { content: '✓'; margin-right: 17px; }</style>
+<style id='feast-modern-branding'>:root {  --feast-branding-primary: #000000; --feast-branding-primary-background: ; --feast-branding-secondary: #000000; --feast-branding-secondary-background: ; }</style>
+<style type="text/css">
+	.feast-category-index-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr) );
+		grid-gap: 17px;
+		list-style: none;
+		list-style-type: none;
+		margin: 17px 0 !important;
+	}
+	.feast-category-index-list li {
+		min-height: 150px;
+		text-align: center;
+		position: relative;
+		list-style: none !important;
+		margin-left: 0 !important;
+		list-style-type: none !important;
+		overflow: hidden;
+	}
+	.feast-category-index-list li a.title { 
+		text-decoration: none; 
+	}
+	.feast-category-index-list-overlay .fsci-title {
+		position: absolute;
+		top: 88%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #FFF;
+		padding: 5px;
+		color: #333;
+		font-weight: bold;
+		border: 2px solid #888;
+		text-transform: uppercase;
+		width: 80%;
+	}
+	.listing-item:focus-within, .wp-block-search__input:focus {outline: 2px solid #555; }
+	.listing-item a:focus, .listing-item a:focus .fsri-title, .listing-item a:focus img { opacity: 0.8; outline: none; }
+	li.listing-item:before { content: "" !important; }
+	.feast-image-frame, .feast-image-border { border: 3px solid #DDD; }
+	.feast-image-round, .feast-image-round img { border-radius: 50%; } 
+	.feast-image-shadow { box-shadow: 3px 3px 5px #AAA; }
+	.feast-line-through { text-decoration: line-through; }
+	.feast-grid-full, .feast-grid-half, .feast-grid-third, .feast-grid-fourth, .feast-grid-fifth { display: grid; grid-gap: 17px; }
+	.feast-grid-full { grid-template-columns: 1fr !important; }
+	.feast-grid-half { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+	.feast-grid-third { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+	.feast-grid-fourth { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+	.feast-grid-fifth { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+	@media only screen and (min-width: 600px)  { 
+		.feast-category-index-list { grid-template-columns: repeat(4, minmax(0, 1fr) ); }
+		.feast-desktop-grid-full { grid-template-columns: 1fr !important; }
+		.feast-desktop-grid-half { grid-template-columns: repeat(2, 1fr) !important; }
+		.feast-desktop-grid-third { grid-template-columns: repeat(3, 1fr) !important; }
+		.feast-desktop-grid-fourth { grid-template-columns: repeat(4, 1fr) !important; }
+		.feast-desktop-grid-fifth { grid-template-columns: repeat(5, 1fr) !important; }
+		.feast-desktop-grid-sixth { grid-template-columns: repeat(6, 1fr) !important; }
+	}
+	@media only screen and (min-width: 1100px) { .full-width-content main.content { width: 1080px; max-width: 1080px; } }
+	@media only screen and (max-width: 600px) { .entry-content .wp-block-image { width: 100% !important; }}
+	@media only screen and (min-width: 1024px) {
+		.feast-full-width-wrapper { width: 100vw; position: relative; left: 50%; right: 50%; margin: 37px -50vw; background: #F5F5F5; padding: 17px 0; }
+		.feast-full-width-wrapper .feast-recipe-index { width: 1140px; margin: 0 auto; }
+		.feast-full-width-wrapper .listing-item { background: #FFF; padding: 17px; }
+	}
+	.feast-prev-next { display: grid; grid-template-columns: 1fr;  border-bottom: 1px solid #CCC; margin: 57px 0;  }
+	.feast-prev-post, .feast-next-post { padding: 37px 17px; border-top: 1px solid #CCC; }
+	.feast-next-post { text-align: right; }
+	@media only screen and (min-width: 600px) {
+		.feast-prev-next { grid-template-columns: 1fr 1fr; border-bottom: none; }
+		.feast-next-post { border-left: 1px solid #CCC;}
+		.feast-prev-post, .feast-next-post { padding: 37px; }
+	}
+	@media only screen and (max-width: 1023px) {
+		.content-sidebar .content, .sidebar-primary { float: none; clear: both; }
+	}
+	body { -webkit-animation: none !important; animation: none !important; }
+</style>    <!-- MailerLite Universal -->
+    <script type="rocketlazyloadscript">
+        (function (m, a, i, l, e, r) {
+            m['MailerLiteObject'] = e;
+
+            function f() {
+                var c = {a: arguments, q: []};
+                var r = this.push(c);
+                return "number" != typeof r ? r : f.bind(c.q);
+            }
+
+            f.q = f.q || [];
+            m[e] = m[e] || f.bind(f.q);
+            m[e].q = m[e].q || f.q;
+            r = a.createElement(i);
+            var _ = a.getElementsByTagName(i)[0];
+            r.async = 1;
+            r.src = l + '?' + (~~(new Date().getTime() / 10000000));
+            _.parentNode.insertBefore(r, _);
+        })(window, document, 'script', 'https://static.mailerlite.com/js/universal.js', 'ml');
+
+        var ml_account = ml('accounts', '1091506', 'n0x9f7a7k6', 'load');
+    </script>
+    <!-- End MailerLite Universal -->
+<style type="text/css"> .wprm-comment-rating svg { width: 16px !important; height: 16px !important; } img.wprm-comment-rating { width: 80px !important; height: 16px !important; } .wprm-comment-rating svg path { fill: #343434; } .wprm-comment-rating svg polygon { stroke: #343434; } .wprm-comment-ratings-container svg .wprm-star-full { fill: #343434; } .wprm-comment-ratings-container svg .wprm-star-empty { stroke: #343434; }</style><style>
+.sidebar .featured-content .entry {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+nav.nav-secondary .genesis-nav-menu a {
+    font-size: 12px;
+    padding: 7px;
+    min-height: auto;
+}
+.site-footer p {
+    font-size: 12px;
+}
+.site-title a:hover {
+    opacity: 1;
+}
+.site-title img {
+    margin-bottom: 0;
+}
+.genesis-nav-menu a {
+    padding: 10px 15px;
+    min-height: auto;
+}
+.genesis-nav-menu .search-form {
+    padding: 5px;
+}
+.genesis-nav-menu .foodie-social .simple-social-icons ul li a {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+.genesis-nav-menu {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+header.site-header {
+    line-height: 1;
+}
+.genesis-nav-menu .sub-menu a {
+    padding: 10px 20px;
+}
+header.site-header {
+    margin-bottom: 20px;
+}
+header.site-header span.desc {
+    font-size: 12px;
+}
+.site-title img {
+    width: 320px;
+    margin: 20px 0 5px;
+}
+figure.feast-image-round {
+    margin: 0;
+}
+@media only screen and (max-width: 940px){
+	nav {
+		display: block;
+		position: relative;
+	}
+	.genesis-nav-menu .menu-item {
+		display: inline-block;
+		border: 0;
+	}
+}
+</style>
+<link rel="pingback" href="https://www.siftandsimmer.com/xmlrpc.php" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="rocketlazyloadscript" async src="https://www.googletagmanager.com/gtag/js?id=UA-100872545-1"></script>
+<script type="rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-100872545-1');
+</script>
+	<style id='feast-increase-content-width'>@media only screen and (min-width: 1200px) { #genesis-content { min-width: 728px; } #content-container { min-width: 728px; }  }</style>
+		<style id='feast-system-fonts'>body {font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;}
+h1,h2,h3,h4,h5,h6 {font-family:-apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;}
+</style>
+	<style id='feast-edit-body-font-size'>body { font-size: 20px; }</style><link rel="icon" href="https://www.siftandsimmer.com/wp-content/uploads/2017/03/cropped-ss2-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.siftandsimmer.com/wp-content/uploads/2017/03/cropped-ss2-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.siftandsimmer.com/wp-content/uploads/2017/03/cropped-ss2-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.siftandsimmer.com/wp-content/uploads/2017/03/cropped-ss2-270x270.png" />
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript></head>
+<body class="post-template-default single single-post postid-1479 single-format-standard feast-plugin custom-header header-image header-full-width content-sidebar genesis-breadcrumbs-hidden genesis-footer-widgets-hidden foodie-pro cookies-not-set"><div class="site-container"><ul class="genesis-skip-link"><li><a href="#genesis-nav-primary" class="screen-reader-shortcut"> Skip to primary navigation</a></li><li><a href="#genesis-content" class="screen-reader-shortcut"> Skip to main content</a></li><li><a href="#genesis-sidebar-primary" class="screen-reader-shortcut"> Skip to primary sidebar</a></li></ul><header class="site-header"><div class="wrap"><div class="title-area"><div class="site-title"><a href="https://www.siftandsimmer.com/" title="Sift &amp; Simmer" ><img width="332" height="87" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20332%2087'%3E%3C/svg%3E" title="Sift &amp; Simmer" alt="Sift &amp; Simmer"  data-pin-nopin="true" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" /><noscript><img width="332" height="87" src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" title="Sift &amp; Simmer" alt="Sift &amp; Simmer"  data-pin-nopin="true" /></noscript></a></div><a href="https://www.siftandsimmer.com"><span class="desc">Matcha, tea-infused baking recipes &amp; Asian favourites</span></a></div></div></header><nav class="nav-primary" aria-label="Main" id="genesis-nav-primary"><div class="wrap"><ul id="menu-menu-1" class="menu genesis-nav-menu menu-primary"><li id="menu-item-77" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-77"><a href="https://www.siftandsimmer.com/about/"><span >About</span></a></li>
+<li id="menu-item-8003" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8003"><a href="https://www.siftandsimmer.com/recipes/"><span >Recipes</span></a></li>
+<li id="menu-item-78" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-78"><a href="https://www.siftandsimmer.com/contact-us/"><span >Contact</span></a></li>
+<li id="foodie-social" class="foodie-social menu-item"><aside class="widget-area"><h2 class="genesis-sidebar-title screen-reader-text">Navigation Menu: Social Icons</h2><section id="simple-social-icons-3" class="widget simple-social-icons"><div class="widget-wrap"><ul class="alignleft"><li class="ssi-facebook"><a href="https://www.facebook.com/siftandsimmer/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-facebook" aria-labelledby="social-facebook-3"><title id="social-facebook-3">Facebook</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-facebook"></use></svg></a></li><li class="ssi-instagram"><a href="http://www.instagram.com/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-instagram" aria-labelledby="social-instagram-3"><title id="social-instagram-3">Instagram</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-instagram"></use></svg></a></li><li class="ssi-pinterest"><a href="http://www.pinterest.ca/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-pinterest" aria-labelledby="social-pinterest-3"><title id="social-pinterest-3">Pinterest</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-pinterest"></use></svg></a></li><li class="ssi-rss"><a href="https://www.siftandsimmer.com/feed/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-rss" aria-labelledby="social-rss-3"><title id="social-rss-3">RSS</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-rss"></use></svg></a></li><li class="ssi-youtube"><a href="https://www.youtube.com/c/siftsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-youtube" aria-labelledby="social-youtube-3"><title id="social-youtube-3">YouTube</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-youtube"></use></svg></a></li></ul></div></section>
+</aside></li><li id="foodie-search" class="foodie-search menu-item"><form class="search-form" method="get" action="https://www.siftandsimmer.com/" role="search"><label class="search-form-label screen-reader-text" for="searchform-1">Search</label><input class="search-form-input" type="search" name="s" id="searchform-1" placeholder="Search"><input class="search-form-submit" type="submit" value="Search"><meta content="https://www.siftandsimmer.com/?s={s}"></form></li></ul></div></nav><div class="feastmobilenavbar"><div class="feastmenutoggle"><a href="#feastmobilemenu"><?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 459 459" style="enable-background:new 0 0 459 459;" xml:space="preserve" aria-labelledby="menuicon" role="img">
+	<title id="menuicon">menu icon</title>
+	<g id="menu">
+		<path fill="currentColor" d="M0,382.5h459v-51H0V382.5z M0,255h459v-51H0V255z M0,76.5v51h459v-51H0z"/>
+	</g>
+</svg>
+</a></div><div class="feastmenulogo"><a href="https://www.siftandsimmer.com"><img width="332" height="87" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20332%2087'%3E%3C/svg%3E" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png 2x" alt="go to homepage" data-pin-nopin="true" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" /><noscript><img width="332" height="87" src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" srcset="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png 2x" alt="go to homepage" data-pin-nopin="true" /></noscript></a></div><div class="feastsubscribebutton"><a href="/subscribe/"><svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="30px" width="90px" viewBox="0, 0, 400,62.365591397849464">
+  <title>subscribe</title>
+  <g id="svgg">
+    <path fill="currentColor" id="path0" d="M26.050 5.330 C 19.725 7.308,15.771 12.123,15.771 17.846 C 15.771 25.406,19.962 29.225,32.891 33.446 C 48.466 38.530,48.556 50.896,33.017 50.896 C 25.829 50.896,22.500 48.560,20.505 42.115 C 19.726 39.597,14.337 40.411,14.337 43.046 C 14.337 56.105,41.674 61.606,48.769 49.975 C 54.448 40.665,48.765 31.572,34.767 27.571 C 23.980 24.488,20.269 20.193,23.310 14.313 C 27.257 6.680,43.728 9.562,43.728 17.886 C 43.728 19.171,44.177 19.355,47.312 19.355 C 49.283 19.355,50.896 19.252,50.896 19.127 C 50.896 9.148,37.546 1.734,26.050 5.330 M160.932 4.926 C 143.613 9.505,145.768 26.536,164.445 32.693 C 175.194 36.236,177.778 38.236,177.778 43.011 C 177.778 53.848,156.854 53.818,154.473 42.977 C 153.842 40.106,147.658 39.647,147.686 42.473 C 147.827 56.888,176.357 61.890,183.180 48.696 C 187.688 39.978,182.226 32.186,168.371 27.569 C 156.805 23.715,152.605 17.927,157.885 13.118 C 164.593 7.008,177.778 10.406,177.778 18.244 C 177.778 19.087,178.577 19.355,181.097 19.355 L 184.417 19.355 183.994 16.747 C 182.636 8.383,170.802 2.317,160.932 4.926 M205.522 5.288 C 193.113 9.929,187.498 27.839,193.471 43.728 C 200.113 61.398,225.168 60.783,229.987 42.832 L 230.709 40.143 227.272 40.143 C 224.006 40.143,223.813 40.253,223.393 42.354 C 221.152 53.560,205.804 54.266,200.382 43.412 C 197.373 37.389,197.248 24.155,200.140 17.838 C 205.236 6.706,220.504 7.247,223.462 18.664 C 224.326 21.998,230.667 22.645,230.225 19.355 C 228.759 8.450,216.195 1.295,205.522 5.288 M58.781 24.396 C 58.781 45.482,59.019 47.008,62.941 51.141 C 70.903 59.530,87.303 57.865,93.053 48.085 L 94.982 44.803 95.203 24.910 L 95.424 5.018 92.199 5.018 L 88.974 5.018 88.752 24.194 C 88.469 48.664,87.490 50.887,76.988 50.893 C 66.447 50.900,65.236 48.111,65.234 23.835 L 65.233 5.018 62.007 5.018 L 58.781 5.018 58.781 24.396 M106.093 30.538 L 106.093 56.059 118.100 55.784 C 131.707 55.472,134.341 54.673,138.131 49.704 C 142.597 43.849,140.283 32.689,134.070 30.116 L 131.852 29.197 134.377 27.481 C 140.228 23.505,140.846 14.573,135.646 9.123 C 132.673 6.006,128.030 5.018,116.357 5.018 L 106.093 5.018 106.093 30.538 M240.143 30.466 L 240.143 55.914 243.369 55.914 L 246.595 55.914 246.595 45.520 L 246.595 35.125 252.509 35.126 L 258.423 35.127 264.025 45.521 L 269.628 55.914 273.190 55.914 C 276.653 55.914,276.730 55.869,275.923 54.301 C 275.467 53.414,272.875 48.634,270.163 43.679 C 264.354 33.065,264.551 34.140,268.014 31.954 C 278.032 25.630,275.856 9.891,264.455 6.209 C 261.718 5.325,258.109 5.018,250.455 5.018 L 240.143 5.018 240.143 30.466 M284.588 30.466 L 284.588 55.914 287.814 55.914 L 291.039 55.914 291.039 30.466 L 291.039 5.018 287.814 5.018 L 284.588 5.018 284.588 30.466 M303.226 30.466 L 303.226 55.914 313.953 55.914 C 325.859 55.914,330.021 55.026,333.601 51.722 C 339.739 46.056,339.150 35.284,332.463 30.920 L 329.863 29.224 332.594 26.619 C 336.044 23.329,337.133 19.713,336.111 14.946 C 334.474 7.313,329.244 5.018,313.490 5.018 L 303.226 5.018 303.226 30.466 M348.387 30.466 L 348.387 55.914 364.559 55.914 L 380.732 55.914 380.509 53.226 L 380.287 50.538 367.563 50.342 L 354.839 50.146 354.839 41.202 L 354.839 32.258 365.950 32.258 L 377.061 32.258 377.061 29.749 L 377.061 27.240 365.950 27.240 L 354.839 27.240 354.839 18.996 L 354.839 10.753 367.384 10.753 L 379.928 10.753 379.928 7.885 L 379.928 5.018 364.158 5.018 L 348.387 5.018 348.387 30.466 M129.099 11.862 C 132.543 13.644,133.822 19.465,131.498 22.784 C 129.472 25.675,126.727 26.523,119.390 26.523 L 112.545 26.523 112.545 18.638 L 112.545 10.753 119.749 10.753 C 124.849 10.753,127.579 11.077,129.099 11.862 M263.574 12.151 C 266.573 13.979,267.549 15.950,267.549 20.179 C 267.549 27.041,264.112 29.448,253.584 29.960 L 246.595 30.299 246.595 20.526 L 246.595 10.753 253.943 10.755 C 259.953 10.758,261.706 11.011,263.574 12.151 M328.021 13.122 C 333.818 19.868,328.285 26.523,316.881 26.523 L 310.394 26.523 310.394 18.575 L 310.394 10.626 318.343 10.868 C 326.030 11.103,326.349 11.177,328.021 13.122 M129.773 33.345 C 133.706 35.379,135.094 40.558,133.031 45.495 C 131.463 49.248,128.894 50.179,120.107 50.179 L 112.545 50.179 112.545 41.219 L 112.545 32.258 120.107 32.258 C 125.465 32.258,128.283 32.575,129.773 33.345 M329.093 34.958 C 332.751 39.055,331.571 46.679,326.905 49.092 C 325.435 49.852,322.636 50.179,317.598 50.179 L 310.394 50.179 310.394 41.157 L 310.394 32.135 318.698 32.376 L 327.003 32.616 329.093 34.958 " stroke="none" fill-rule="evenodd"></path>
+  </g>
+</svg>
+</a></div><div class="feastsearchtoggle"><a href="#feastmobilemenu"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 100 100" aria-labelledby="searchicon" role="img">
+  <title id="searchicon">search icon</title>
+  <g transform="translate(0,-952.36218)">
+    <path fill="currentColor" d="M 40 11 C 24.007431 11 11 24.00743 11 40 C 11 55.9926 24.007431 69 40 69 C 47.281794 69 53.935267 66.28907 59.03125 61.84375 L 85.59375 88.40625 C 86.332786 89.16705 87.691654 89.1915 88.4375 88.4375 C 89.183345 87.6834 89.175154 86.2931 88.40625 85.5625 L 61.875 59.03125 C 66.312418 53.937244 69 47.274551 69 40 C 69 24.00743 55.992569 11 40 11 z M 40 15 C 53.830808 15 65 26.16919 65 40 C 65 53.8308 53.830808 65 40 65 C 26.169192 65 15 53.8308 15 40 C 15 26.16919 26.169192 15 40 15 z " transform="translate(0,952.36218)">
+    </path>
+  </g>
+</svg>
+</a></div></div><div id="feastmobilemenu" class="feastmobilemenu-background" aria-label="main"><div class="mmm-dialog"><div class="mmm-content"><a href="https://www.siftandsimmer.com"><img width="332" height="87" id="mmmlogo" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20332%2087'%3E%3C/svg%3E" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png 2x" alt="Homepage link" data-pin-nopin="true" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" /><noscript><img width="332" height="87" id="mmmlogo" src="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png" srcset="https://www.siftandsimmer.com/wp-content/uploads/2020/07/cropped-siftandsimmer20182-3.png 2x" alt="Homepage link" data-pin-nopin="true" /></noscript></a><div id="feast-mobile-search"><form class="search-form" method="get" action="https://www.siftandsimmer.com/" role="search"><label class="search-form-label screen-reader-text" for="searchform-2">Search</label><input class="search-form-input" type="search" name="s" id="searchform-2" placeholder="Search"><input class="search-form-submit" type="submit" value="Search"><meta content="https://www.siftandsimmer.com/?s={s}"></form></div><ul id="menu-feast-modern-mobile-menu" class="menu"><li id="menu-item-7997" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-7997"><a href="https://www.siftandsimmer.com/">Home</a></li>
+<li id="menu-item-7998" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7998"><a href="https://www.siftandsimmer.com/about/">About</a></li>
+<li id="menu-item-7999" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7999"><a href="https://www.siftandsimmer.com/recipes/">Recipes</a></li>
+<li id="menu-item-8000" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8000"><a href="https://www.siftandsimmer.com/contact-us/">Contact</a></li>
+</ul><div id="feast-mobile-menu-social-icons"><div id="feast-social"><li id="simple-social-icons-4" class="widget simple-social-icons"><ul class="alignleft"><li class="ssi-facebook"><a href="https://www.facebook.com/siftandsimmer/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-facebook" aria-labelledby="social-facebook-4"><title id="social-facebook-4">Facebook</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-facebook"></use></svg></a></li><li class="ssi-instagram"><a href="http://www.instagram.com/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-instagram" aria-labelledby="social-instagram-4"><title id="social-instagram-4">Instagram</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-instagram"></use></svg></a></li><li class="ssi-pinterest"><a href="http://www.pinterest.ca/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-pinterest" aria-labelledby="social-pinterest-4"><title id="social-pinterest-4">Pinterest</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-pinterest"></use></svg></a></li><li class="ssi-rss"><a href="https://www.siftandsimmer.com/feed/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-rss" aria-labelledby="social-rss-4"><title id="social-rss-4">RSS</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-rss"></use></svg></a></li><li class="ssi-youtube"><a href="https://www.youtube.com/channel/UCAetxBlvXq7IG3JeoHWi4fw" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-youtube" aria-labelledby="social-youtube-4"><title id="social-youtube-4">YouTube</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-youtube"></use></svg></a></li></ul></li>
+</div></div><a href="#" class="closebtn">×</a></div></div></div>	<style>
+		/* Add animation (Chrome, Safari, Opera) */
+		@-webkit-keyframes openmenu {
+		  from {left:-100px;opacity: 0;}
+		  to {left:0px;opacity:1;}
+		}
+		@-webkit-keyframes closebutton {
+		    0% {opacity: 0;}
+		    100% {opacity: 1;}
+		}
+         
+		/* Add animation (Standard syntax) */
+		@keyframes openmenu {
+		  from {left:-100px;opacity: 0;}
+		  to {left:0px;opacity:1;}
+		}
+		@keyframes closebutton {
+		    0% {opacity: 0;}
+		    100% {opacity: 1;}
+		}
+
+		/* The mmm's background */
+		.feastmobilemenu-background {
+			display: none;
+			position: fixed;
+			z-index: 9999;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgb(0, 0, 0);
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		/* Display the mmm when targeted */
+		.feastmobilemenu-background:target {
+			display: table;
+			position: fixed;
+		}
+
+		/* The mmm box */
+		.mmm-dialog {
+			display: table-cell;
+			vertical-align: top;
+			font-size: 20px;
+		}
+
+		/* The mmm's content */
+		.mmm-dialog .mmm-content {
+			margin: 0;
+			padding: 10px 10px 10px 20px;
+			float: left;
+			background-color: #FEFEFE;
+			position: fixed;
+			overflow-x: hidden;
+			overflow-y: auto;
+			outline: 0;
+			border-right: 1px #777 solid;
+			border-bottom: 1px #777 solid;
+			text-align: justify;
+			width: 320px;
+			height: 90%;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+			/* Add animation */
+			-webkit-animation-name: openmenu; /* Chrome, Safari, Opera */
+			-webkit-animation-duration: 0.6s; /* Chrome, Safari, Opera */
+			animation-name: openmenu;
+			animation-duration: 0.6s;
+		}
+		.mmm-content li {
+		    list-style: none;
+		}
+		#menu-feast-modern-mobile-menu li {
+			min-height: 50px; 
+			margin-left: 5px;
+		    	list-style: none;
+		}
+		#menu-feast-modern-mobile-menu li a {
+			color: inherit;
+			text-decoration: inherit;
+		}
+	
+		/* The button used to close the mmm */
+		.closebtn {
+			text-decoration: none;
+			float: right;
+			margin-right: 10px;
+			font-size: 50px;
+			font-weight: bold;
+			color: #333;
+			z-index:1001;
+  			top: 0;
+			position: fixed;
+			left: 270px;
+			-webkit-animation-name: closebutton; /* Chrome, Safari, Opera */
+			-webkit-animation-duration: 1.5s; /* Chrome, Safari, Opera */
+			animation-name: closebutton;
+			animation-duration: 1.5s;
+		}
+
+		.closebtn:hover,
+		.closebtn:focus {
+			color: #555;
+			cursor: pointer;
+		}
+
+		.mmmheader {
+			font-size: 25px;
+			color: #FFF;
+			height: 80px;
+			display: flex;
+			justify-content: space-between;
+		}
+		#mmmlogo {	
+			max-width: 200px;	
+			max-height: 70px;	
+		}
+		#feast-mobile-search {
+			margin-bottom: 17px;
+			min-height: 50px;
+			overflow: auto;
+		}
+		#feast-mobile-search input[type=submit] {
+			display: none;
+		}
+		#feast-mobile-search input[type=search] {
+			width: 100%;
+		}	
+
+		#feast-mobile-menu-social-icons {
+			margin-top: 17px;
+		}
+
+		#feast-social .simple-social-icons {
+			list-style: none;
+		}
+
+		.feastmobilenavbar { 
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 998;
+			width: 100%;
+			height: 80px;
+			padding: 0;
+			margin: 0 auto;
+			box-sizing: border-box;
+			border-top: 1px solid #CCC;
+			border-bottom: 1px solid #CCC;
+			background: #FFF;
+			display: grid;
+			grid-template-columns: repeat(7, minmax(50px, 1fr));
+			text-align: center;
+		}
+		.admin-bar .feastmobilenavbar {
+			top: 32px;
+		}
+		@media screen and (max-width:782px) {
+			.admin-bar .feastmobilenavbar {
+				top: 46px;
+			}
+		}
+		.feastmobilenavbar a img { 
+			margin-bottom: inherit !important; 
+		}
+		.feastmenutoggle, .feastsearchtoggle, .feastsubscribebutton {
+			display: flex;
+			align-items: center;
+			justify-items: center;
+		}
+		.feastsearchtoggle svg, .feastmenutoggle svg {
+			width: 30px;
+			height: 30px;
+			padding: 10px;
+			box-sizing: content-box;
+			color: black;
+		}
+		.feastsubscribebutton { 
+   		 	overflow: hidden;
+		}
+		.feastsubscribebutton img {
+			max-width: 90px;
+			padding: 15px;
+			margin: 1px;
+		}
+		.feastsubscribebutton svg {
+			color: #000;
+		}
+				.feastmenulogo {
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			grid-column-end: span 4;
+		}
+		@media only screen and ( max-width: 1025px ) {
+			.feastmenulogo {grid-column-end: span 3; } 
+			.feastsubscribebutton { grid-column-end: span 2; }
+		}
+		@media only screen and (max-width: 359px) { /* 320px fix */ 
+			feastmobilenavbar { 
+				grid-template-columns: repeat(6, minmax(50px, 1fr)); 
+			} 
+			.feastmenulogo {grid-column-end: span 2; }		}
+		@media only screen and ( min-width: 1026px ) {
+			.feastmobilenavbar { display: none; }
+		}
+		@media only screen and ( max-width: 1025px ) {
+			header.site-header, .nav-primary  { display: none !important; visibility: hidden; }
+			.site-container, .body-template-content {  margin-top: 80px;  /* prevents menu overlapping content */ }
+		}
+	</style>
+		
+	<div class="site-inner"><div class="content-sidebar-wrap"><main class="content" id="genesis-content"><article class="post-1479 post type-post status-publish format-standard has-post-thumbnail category-breads-buns mv-content-wrapper entry" aria-label="All-Natural Steamed Custard Buns (Lai Wong Bao)"><header class="entry-header"><h1 class="entry-title">All-Natural Steamed Custard Buns (Lai Wong Bao)</h1>
+<p class="entry-meta">Published: <time class="entry-time">Nov 22, 2017</time> by <span class="entry-author"><a href="https://www.siftandsimmer.com/about/" class="entry-author-link" rel="author"><span class="entry-author-name">Michelle</span></a></span> · <span class="entry-comments-link"><a href="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/#comments">4 Comments</a></span></p></header><div class="entry-content"><div class="wprm-recipe wprm-recipe-snippet wprm-recipe-template-snippet-basic"><a href="#recipe" data-recipe="6657" style="color: #333333;" class="wprm-recipe-jump wprm-recipe-link wprm-jump-to-recipe-shortcode wprm-block-text-normal">Jump to Recipe</a> - <a href="https://www.siftandsimmer.com/wprm_print/recipe/6657" style="color: #333333;" class="wprm-recipe-print wprm-recipe-link wprm-print-recipe-shortcode wprm-block-text-normal" data-recipe-id="6657" target="_blank" rel="nofollow">Print Recipe</a></div><p><img class="aligncenter wp-image-1557 size-large" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20682%201024'%3E%3C/svg%3E" alt="Torn open Custard Buns Lai Wong Bao on white plate." width="682" height="1024" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3-200x300.jpg 200w" data-lazy-sizes="(max-width: 682px) 100vw, 682px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3-682x1024.jpg" /><noscript><img class="aligncenter wp-image-1557 size-large" src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3-682x1024.jpg" alt="Torn open Custard Buns Lai Wong Bao on white plate." width="682" height="1024" srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-3-200x300.jpg 200w" sizes="(max-width: 682px) 100vw, 682px" /></noscript><br />
+Eggs, milk and sugar... these are the basic ingredients that are in a custard.</p>
+<p>So it should be as simple to make custard-filled buns, right?</p>
+<p>But did you know that many custard buns are made with custard powder?</p>
+<h2>WHAT IS CUSTARD POWDER?</h2>
+<p>Custard powder was invented in England by Alfred Bird in the the 1800s. Hence, the name "Bird's Custard Powder."</p>
+<p>There's no actual eggs in that particular custard powder, however, there is a long list of additives and preservatives, which means you won't find custard powder in my kitchen.</p>
+<p><img class="aligncenter wp-image-1592 size-large" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20682%201024'%3E%3C/svg%3E" alt="Custard Buns Lai Wong Bao in bamboo steamer and white plate." width="682" height="1024" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1-200x300.jpg 200w" data-lazy-sizes="(max-width: 682px) 100vw, 682px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1-682x1024.jpg" /><noscript><img class="aligncenter wp-image-1592 size-large" src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1-682x1024.jpg" alt="Custard Buns Lai Wong Bao in bamboo steamer and white plate." width="682" height="1024" srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-1-200x300.jpg 200w" sizes="(max-width: 682px) 100vw, 682px" /></noscript></p>
+<h2>MY PAST ATTEMPTS AT CUSTARD BUNS</h2>
+<p>In pursuit of the perfect steamed custard buns WITHOUT custard powder, I've attempted numerous versions of custard bun fillings to get as close of a texture and colour to commercially sold ones.</p>
+<p>I tried doing a standard custard of just eggs, milk, sugar and flour -- and while it tasted alright, it was a little stiff when steamed in the bun. I was aiming for more of an oozy texture.</p>
+<p>In terms of colour, I tried turmeric powder to get a more natural yellow colour, but that tasted a little bitter, and the colour was way too yellow.</p>
+<p>I'm lucky that my sons love eating custard buns so they were up for all of my experimentation.</p>
+<h2>MY OOZY VERSION WITHOUT CUSTARD POWDER</h2>
+<p>I'm excited to share my recipe which is free from any artificial flavours, colours, or additives.</p>
+<p>I used pumpkin puree to enhance the yellow colour naturally, but the coconut milk and eggs will mask the taste of it.</p>
+<p>Rich, slightly oozy, and lightly sweet custard, enveloped by a soft, fluffy steamed dough.</p>
+<h2>INGREDEIENTS IN OOZY CUSTARD FILLING</h2>
+<ul>
+<li>coconut oil</li>
+<li>coconut milk</li>
+<li>whole milk</li>
+<li>pumpkin puree</li>
+<li>egg yolks</li>
+<li>vanilla extract</li>
+<li>granulated sugar</li>
+<li>cornstarch</li>
+<li>all-purpose flour</li>
+</ul>
+<h2>HOW TO MAKE THE CUSTARD</h2>
+<p>Similar to making a traditional custard, combine the coconut milk, milk, pumpkin puree and coconut oil in a small saucepan.</p>
+<p>Whisk together the egg yolks, vanilla extract, sugar, cornstarch and flour in a separate bowl.</p>
+<p>Once the milk mixture has been heated, gradually pour it into the egg yolk mixture, simultaneously whisking (to temper the eggs).&nbsp;</p>
+<p>When all the milk has been incorporated, add the mixture back into the saucepan and continue to whisk over low heat, until thickened.&nbsp;</p>
+<p>Chill the mixture, and scoop into balls. Place into the refrigerator/freezer to firm up.&nbsp;</p>
+<h2>OTHER RECIPES YOU MAY ENJOY</h2>
+<p>If you like this recipe, you may enjoy:</p>
+<p><a href="https://www.siftandsimmer.com/steamed-red-bean-paste-buns/">Steamed Red Bean Buns</a></p>
+<p><a href="https://www.siftandsimmer.com/matcha-bolo-bao/">Matcha Pineapple Bun "Bo Lo Bao"</a></p>
+<p><a href="https://www.siftandsimmer.com/coconut-buns-chinese-cocktail-buns/">Coconut Buns (Chinese Cocktail Buns) 雞尾包</a></p>
+<p><a href="https://www.siftandsimmer.com/matcha-mantou/">Matcha Mantou</a></p>
+<p>These buns are great for breakfast.</p>
+<p>In fact, these custard buns appear at my breakfast table at least once a week. (It's super easy when you steam them from frozen). Pair it with a <a href="https://www.siftandsimmer.com/homemade-bubble-tea-tapioca-pearls-boba/">homemade bubble tea</a> for the ultimate afternoon snack.</p>
+<p>Let me know if you try out this recipe -- tag me on Instagram <a href="https://www.instagram.com/siftandsimmer/">@siftandsimmer</a> or leave me a comment/rating below!</p>
+<p><img class="aligncenter wp-image-1558 size-large" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20682%201024'%3E%3C/svg%3E" alt="Torn open Custard Buns Lai Wong Bao on white round plate and bamboo steamer." width="682" height="1024" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-200x300.jpg 200w" data-lazy-sizes="(max-width: 682px) 100vw, 682px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024.jpg" /><noscript><img class="aligncenter wp-image-1558 size-large" src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024.jpg" alt="Torn open Custard Buns Lai Wong Bao on white round plate and bamboo steamer." width="682" height="1024" srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2.jpg 682w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-200x300.jpg 200w" sizes="(max-width: 682px) 100vw, 682px" /></noscript></p>
+<div id="recipe"></div><div id="wprm-recipe-container-6657" class="wprm-recipe-container" data-recipe-id="6657" data-servings="10"><div class="wprm-recipe wprm-recipe-template-siftsimmertemplate"><div class="wprm-container-float-right">
+	<div class="wprm-recipe-image wprm-block-image-normal"><img style="border-width: 0px;border-style: solid;border-color: #666666;" width="150" height="150" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20150%20150'%3E%3C/svg%3E" class="attachment-150x150 size-150x150" alt="" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-150x150.jpg 150w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-500x500.jpg 500w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-360x360.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-180x180.jpg 180w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-100x100.jpg 100w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-200x200.jpg 200w" data-lazy-sizes="(max-width: 150px) 100vw, 150px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-150x150.jpg" /><noscript><img style="border-width: 0px;border-style: solid;border-color: #666666;" width="150" height="150" src="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-150x150.jpg" class="attachment-150x150 size-150x150" alt="" srcset="https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-150x150.jpg 150w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-500x500.jpg 500w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-360x360.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-180x180.jpg 180w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-100x100.jpg 100w, https://www.siftandsimmer.com/wp-content/uploads/2017/11/custard-bun-lai-wong-bao-2-682x1024-1-200x200.jpg 200w" sizes="(max-width: 150px) 100vw, 150px" /></noscript></div>
+	<div class="wprm-spacer" style="height: 5px"></div>
+	<a href="https://www.siftandsimmer.com/wprm_print/recipe/6657" style="color: #444444;background-color: #ffffff;border-color: #777777;border-radius: 0px;padding: 5px 5px;" class="wprm-recipe-print wprm-recipe-link wprm-print-recipe-shortcode wprm-block-text-normal wprm-recipe-print-wide-button wprm-recipe-link-wide-button wprm-color-accent" data-recipe-id="6657" target="_blank" rel="nofollow"><span class="wprm-recipe-icon wprm-recipe-print-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 24 24"><g ><path fill="#444444" d="M19,5.09V1c0-0.552-0.448-1-1-1H6C5.448,0,5,0.448,5,1v4.09C2.167,5.569,0,8.033,0,11v7c0,0.552,0.448,1,1,1h4v4c0,0.552,0.448,1,1,1h12c0.552,0,1-0.448,1-1v-4h4c0.552,0,1-0.448,1-1v-7C24,8.033,21.833,5.569,19,5.09z M7,2h10v3H7V2z M17,22H7v-9h10V22z M18,10c-0.552,0-1-0.448-1-1c0-0.552,0.448-1,1-1s1,0.448,1,1C19,9.552,18.552,10,18,10z"/></g></svg></span> Print Recipe</a>
+	
+	
+</div>
+<h2 class="wprm-recipe-name wprm-block-text-bold">All-Natural Steamed Custard Buns (Lai Wong Bao)</h2>
+<div class="wprm-spacer" style="height: 5px"></div>
+<div class="wprm-recipe-summary wprm-block-text-normal"><span style="display: block;">Homemade all-natural custard buns made without artificial custard powder. Rich, silky, lightly sweet custard in a fluffy steamed bun.</span></div>
+<div class="wprm-spacer"></div>
+<div class="wprm-recipe-meta-container wprm-recipe-times-container wprm-recipe-details-container wprm-recipe-details-container-table wprm-block-text-normal wprm-recipe-table-borders-top-bottom wprm-recipe-table-borders-inside" style="border-width: 1px;border-style: solid;border-color: #777777;"><div class="wprm-recipe-block-container wprm-recipe-block-container-table wprm-block-text-normal wprm-recipe-time-container wprm-recipe-prep-time-container" style="border-width: 1px;border-style: solid;border-color: #777777;"><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-time-label wprm-recipe-prep-time-label">Prep Time</span><span class="wprm-recipe-time wprm-block-text-normal"><span class="wprm-recipe-details wprm-recipe-details-hours wprm-recipe-prep_time wprm-recipe-prep_time-hours">2</span> <span class="wprm-recipe-details-unit wprm-recipe-details-unit-hours wprm-recipe-prep_time-unit wprm-recipe-prep_timeunit-hours">hrs</span></span></div><div class="wprm-recipe-block-container wprm-recipe-block-container-table wprm-block-text-normal wprm-recipe-time-container wprm-recipe-cook-time-container" style="border-width: 1px;border-style: solid;border-color: #777777;"><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-time-label wprm-recipe-cook-time-label">Cook Time</span><span class="wprm-recipe-time wprm-block-text-normal"><span class="wprm-recipe-details wprm-recipe-details-minutes wprm-recipe-cook_time wprm-recipe-cook_time-minutes">45</span> <span class="wprm-recipe-details-unit wprm-recipe-details-minutes wprm-recipe-cook_time-unit wprm-recipe-cook_timeunit-minutes">mins</span></span></div><div class="wprm-recipe-block-container wprm-recipe-block-container-table wprm-block-text-normal wprm-recipe-time-container wprm-recipe-total-time-container" style="border-width: 1px;border-style: solid;border-color: #777777;"><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-time-label wprm-recipe-total-time-label">Total Time</span><span class="wprm-recipe-time wprm-block-text-normal"><span class="wprm-recipe-details wprm-recipe-details-hours wprm-recipe-total_time wprm-recipe-total_time-hours">2</span> <span class="wprm-recipe-details-unit wprm-recipe-details-unit-hours wprm-recipe-total_time-unit wprm-recipe-total_timeunit-hours">hrs</span> <span class="wprm-recipe-details wprm-recipe-details-minutes wprm-recipe-total_time wprm-recipe-total_time-minutes">45</span> <span class="wprm-recipe-details-unit wprm-recipe-details-minutes wprm-recipe-total_time-unit wprm-recipe-total_timeunit-minutes">mins</span></span></div></div>
+<div class="wprm-spacer" style="height: 5px"></div>
+<div class="wprm-recipe-meta-container wprm-recipe-tags-container wprm-recipe-details-container wprm-recipe-details-container-inline wprm-block-text-normal" style=""><div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-tag-container wprm-recipe-course-container" style=""><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-tag-label wprm-recipe-course-label">Course: </span><span class="wprm-recipe-course wprm-block-text-normal">Breakfast, Snack</span></div><div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-tag-container wprm-recipe-cuisine-container" style=""><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-tag-label wprm-recipe-cuisine-label">Cuisine: </span><span class="wprm-recipe-cuisine wprm-block-text-normal">Asian</span></div></div>
+<div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-servings-container" style=""><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-servings-label">Servings: </span><span class="wprm-recipe-servings wprm-recipe-details wprm-recipe-servings-6657 wprm-recipe-servings-adjustable-tooltip wprm-block-text-normal" data-recipe="6657" aria-label="Adjust recipe servings">10</span></div>
+<div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-nutrition-container wprm-recipe-calories-container" style=""><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-nutrition-label wprm-recipe-calories-label">Calories: </span><span class="wprm-recipe-nutrition-with-unit"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-calories wprm-block-text-normal">191</span><span class="wprm-recipe-details-unit wprm-recipe-nutrition-unit wprm-recipe-calories-unit wprm-block-text-normal">kcal</span></span></div>
+<div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-author-container" style=""><span class="wprm-recipe-details-label wprm-block-text-faded wprm-recipe-author-label">Author: </span><span class="wprm-recipe-details wprm-recipe-author wprm-block-text-normal">Michelle | Sift & Simmer</span></div>
+
+
+<div class="wprm-spacer"></div>
+
+<p class="wprm-text wprm-block-text-italic">For accuracy and precision in baking recipes, use weight (metric) measurements when available.</p>
+<div class="wprm-recipe-ingredients-container wprm-recipe-6657-ingredients-container wprm-block-text-normal wprm-ingredient-style-regular" data-recipe="6657" data-servings="10"><h3 class="wprm-recipe-header wprm-recipe-ingredients-header wprm-block-text-bold wprm-align-left wprm-header-decoration-none" style="">Ingredients</h3><div class="wprm-recipe-ingredient-group"><h4 class="wprm-recipe-group-name wprm-recipe-ingredient-group-name wprm-block-text-bold">Custard</h4><ul class="wprm-recipe-ingredients"><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">2</span>&#32;<span class="wprm-recipe-ingredient-name">egg yolks</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">1</span>&#32;<span class="wprm-recipe-ingredient-unit">teaspoon</span>&#32;<span class="wprm-recipe-ingredient-name">vanilla extract</span>&#32;<span class="wprm-recipe-ingredient-notes wprm-recipe-ingredient-notes-faded">or &frac14; teaspoon vanilla paste</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">&frac34;</span>&#32;<span class="wprm-recipe-ingredient-unit">C</span>&#32;<span class="wprm-recipe-ingredient-name">coconut milk</span>&#32;<span class="wprm-recipe-ingredient-notes wprm-recipe-ingredient-notes-faded">you can omit and just use milk instead</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">&frac12;</span>&#32;<span class="wprm-recipe-ingredient-unit">C</span>&#32;<span class="wprm-recipe-ingredient-name">whole milk</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">&frac14;</span>&#32;<span class="wprm-recipe-ingredient-unit">C</span>&#32;<span class="wprm-recipe-ingredient-name">+ 2 teaspoon granulated sugar</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">2</span>&#32;<span class="wprm-recipe-ingredient-unit">tablespoon</span>&#32;<span class="wprm-recipe-ingredient-name">corn starch</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">1</span>&#32;<span class="wprm-recipe-ingredient-unit">tablespoon</span>&#32;<span class="wprm-recipe-ingredient-name">all-purpose flour</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">1</span>&#32;<span class="wprm-recipe-ingredient-unit">teaspoon</span>&#32;<span class="wprm-recipe-ingredient-name">coconut oil</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">2</span>&#32;<span class="wprm-recipe-ingredient-unit">tablespoon</span>&#32;<span class="wprm-recipe-ingredient-name">pumpkin puree</span></li></ul></div><div class="wprm-recipe-ingredient-group"><h4 class="wprm-recipe-group-name wprm-recipe-ingredient-group-name wprm-block-text-bold">Dough</h4><ul class="wprm-recipe-ingredients"><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">250</span>&#32;<span class="wprm-recipe-ingredient-unit">g</span>&#32;<span class="wprm-recipe-ingredient-name">all-purpose flour</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">140</span>&#32;<span class="wprm-recipe-ingredient-unit">g</span>&#32;<span class="wprm-recipe-ingredient-name">warm water</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">5</span>&#32;<span class="wprm-recipe-ingredient-unit">g</span>&#32;<span class="wprm-recipe-ingredient-name">active dry yeast</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">1</span>&#32;<span class="wprm-recipe-ingredient-unit">teaspoon</span>&#32;<span class="wprm-recipe-ingredient-name">baking powder</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">10</span>&#32;<span class="wprm-recipe-ingredient-unit">g</span>&#32;<span class="wprm-recipe-ingredient-name">granulated sugar</span></li><li class="wprm-recipe-ingredient" style="list-style-type: disc;"><span class="wprm-recipe-ingredient-amount">5</span>&#32;<span class="wprm-recipe-ingredient-unit">g</span>&#32;<span class="wprm-recipe-ingredient-name">vegetable oil</span></li></ul></div></div>
+<div class="wprm-recipe-instructions-container wprm-recipe-6657-instructions-container wprm-block-text-normal" data-recipe="6657"><h3 class="wprm-recipe-header wprm-recipe-instructions-header wprm-block-text-bold wprm-align-left wprm-header-decoration-none" style="">Instructions</h3><div class="wprm-recipe-instruction-group"><h4 class="wprm-recipe-group-name wprm-recipe-instruction-group-name wprm-block-text-bold">Custard:</h4><ul class="wprm-recipe-instructions"><li id="wprm-recipe-6657-step-0-0" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>In a small saucepan, combine the coconut milk, milk, coconut oil, and pumpkin puree and stir over medium heat.</div></li><li id="wprm-recipe-6657-step-0-1" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";><span style="display: block;">In a small glass bowl, place the egg yolks, vanilla, sugar, cornstarch and flour and whisk together. Place the bowl on a damp dishcloth.</span></div></li><li id="wprm-recipe-6657-step-0-2" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>When the coconut milk is heated through, gradually drizzle the hot milk over the egg yolks and whisk constantly (to temper the eggs). Keep whisking while you pour the rest of the milk to remove any lumps.</div></li><li id="wprm-recipe-6657-step-0-3" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Gently pour the mixture back into the saucepan and continue to whisk over low heat. The mixture will start to thicken. You can tell it is thick enough when a spoon dipped into the mixture will sustain a line drawn on the back of it.</div></li><li id="wprm-recipe-6657-step-0-4" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Remove from heat and put the mixture through a sieve to remove any remaining lumps and into a clean bowl.</div></li><li id="wprm-recipe-6657-step-0-5" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Let cool. Place a piece of plastic wrap over top of the custard and place into the refrigerator overnight.</div></li><li id="wprm-recipe-6657-step-0-6" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>The next day, remove the custard from the refrigerator and use a small ice cream scoop to form balls. Place the balls onto a piece of plastic wrap and enclose to keep its shape. Repeat with the remaining custard.</div></li><li id="wprm-recipe-6657-step-0-7" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Place the plastic-wrapped custard balls into the freezer until ready to use.</div></li></ul></div><div class="wprm-recipe-instruction-group"><h4 class="wprm-recipe-group-name wprm-recipe-instruction-group-name wprm-block-text-bold">Dough:</h4><ul class="wprm-recipe-instructions"><li id="wprm-recipe-6657-step-1-0" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>In a stand mixer bowl, combine flour, baking powder and oil.</div></li><li id="wprm-recipe-6657-step-1-1" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>In a small bowl, add the warm water, sugar, and yeast. Let the yeast activate and become bubbly.</div></li><li id="wprm-recipe-6657-step-1-2" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Once the yeast has activated, with the mixer running on low, add it to the flour mixture. Knead until the dough is smooth and elastic, about 5 minutes. If the dough is too wet, add a little more flour. If the dough is too dry, add 1 teaspoon of water at a time until you obtain the correct consistency.</div></li><li id="wprm-recipe-6657-step-1-3" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Lightly grease a medium glass bowl and place the the dough into it. Cover and let it proof in a warm place for about 1 hour or until almost doubled in bulk.</div></li><li id="wprm-recipe-6657-step-1-4" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Once dough has risen, divide into portions of ~50g each. Roll each dough portion into a smooth ball and flatten the edges to form a disc with a hump in the middle.</div></li><li id="wprm-recipe-6657-step-1-5" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Remove the custard filling balls from the freezer and place one custard ball in the middle of the dough. Carefully bring up the edges of the dough and pleat around it, sealing up the filling.</div></li><li id="wprm-recipe-6657-step-1-6" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Place the dough with the pleats facing down onto a square piece of parchment paper, approximately 3" by 3" in size.</div></li><li id="wprm-recipe-6657-step-1-7" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Repeat with the remaining dough and filling.</div></li><li id="wprm-recipe-6657-step-1-8" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Place the custard buns (with the parchment) onto a steamer rack or a bamboo steamer.</div></li><li id="wprm-recipe-6657-step-1-9" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Let rest for about 20-30 minutes, until dough has risen slightly.</div></li><li id="wprm-recipe-6657-step-1-10" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Use large pot or wok with just enough water and set your steaming rack over top of it. Turn on the heat to high and steam for 15 minutes.</div></li><li id="wprm-recipe-6657-step-1-11" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";>Turn off the heat and let it rest for 5 minutes without opening the lid. (This is to prevent the buns from collapsing).</div></li><li id="wprm-recipe-6657-step-1-12" class="wprm-recipe-instruction" style="list-style-type: decimal;"><div class="wprm-recipe-instruction-text"style="margin-bottom: 5px";><span style="display: block;">Remove from heat and let cool. Enjoy the custard buns immediately.</span></div></li></ul></div></div>
+
+<div class="wprm-recipe-notes-container wprm-block-text-normal"><h3 class="wprm-recipe-header wprm-recipe-notes-header wprm-block-text-bold wprm-align-left wprm-header-decoration-none" style="">Notes</h3><div class="wprm-recipe-notes"><span data-slate-node="element" style="display: block;"><span data-slate-node="text">Place the buns into an airtight container and consume within 3 days. </span></span><div class="wprm-spacer"></div>
+<span data-slate-node="element" data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMiUyMG9yJTIwcGxhY2UlMjB0aGUlMjBidW5zJTIwaW50byUyMGFuJTIwYWlydGlnaHQlMjBjb250YWluZXIlMjBhbmQlMjBjb25zdW1lJTIwd2l0aGluJTIwMyUyMGRheXMuJTIwJTIyJTdEJTVEJTdEJTJDJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMk90aGVyd2lzZSUyQyUyMGluZGl2aWR1YWxseS13cmFwcGVkJTIwY3VzdGFyZCUyMGJ1bnMlMjB3aWxsJTIwa2VlcCUyMGluJTIwdGhlJTIwZnJlZXplciUyMGZvciUyMHVwJTIwdG8lMjAzJTIwbW9udGhzLiUyMFdoZW4lMjByZWFkeSUyMHRvJTIwZWF0JTJDJTIwanVzdCUyMHN0ZWFtJTIwZm9yJTIwMTUtMjAlMjBtaW51dGVzJTIwZnJvbSUyMGZyb3plbi4lMjIlN0QlNUQlN0QlNUQ=" style="display: block;"><span data-slate-node="text">Otherwise, individually-wrapped custard buns will keep in the freezer for up to 3 months. When ready to eat, just steam for 15-20 minutes from frozen.</span></span></div></div>
+<h3 class="wprm-recipe-header wprm-recipe-nutrition-header wprm-block-text-bold wprm-align-left wprm-header-decoration-none" style="">Nutrition</h3><div class="wprm-nutrition-label-container wprm-nutrition-label-container-simple wprm-block-text-normal" style="text-align: left;"><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Calories: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">191</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">kcal</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Carbohydrates: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">29</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Protein: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">4</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Fat: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">6</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Saturated Fat: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">5</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Cholesterol: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">40</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Sodium: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">54</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Potassium: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">99</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Fiber: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">1</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Sugar: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">7</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">g</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Vitamin A: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">546</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">IU</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Vitamin C: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">1</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Calcium: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">51</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span><span style="color: #777777"> | </span><span class="wprm-nutrition-label-text-nutrition-container"><span class="wprm-nutrition-label-text-nutrition-label  wprm-block-text-normal" style="color: #777777">Iron: </span><span class="wprm-nutrition-label-text-nutrition-value" style="color: #333333">2</span><span class="wprm-nutrition-label-text-nutrition-unit" style="color: #333333">mg</span></span></div>
+<p class="wprm-text wprm-block-text-normal">The nutritional information provided should be considered as approximate and is not guaranteed. Please use your best judgment to ensure food is safely prepared and/or a good fit for your diet.</p>
+<div class="wprm-call-to-action wprm-call-to-action-simple" style="color: #333333;background-color: #dee5e2;margin: 2px;padding-top: 10px;padding-bottom: 10px;"><span class="wprm-recipe-icon wprm-call-to-action-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g class="nc-icon-wrapper" fill="#000000"><path fill="#000000" d="M12,2.162c3.204,0,3.584,0.012,4.849,0.07c1.366,0.062,2.633,0.336,3.608,1.311 c0.975,0.975,1.249,2.242,1.311,3.608c0.058,1.265,0.07,1.645,0.07,4.849s-0.012,3.584-0.07,4.849 c-0.062,1.366-0.336,2.633-1.311,3.608c-0.975,0.975-2.242,1.249-3.608,1.311c-1.265,0.058-1.645,0.07-4.849,0.07 s-3.584-0.012-4.849-0.07c-1.366-0.062-2.633-0.336-3.608-1.311c-0.975-0.975-1.249-2.242-1.311-3.608 c-0.058-1.265-0.07-1.645-0.07-4.849s0.012-3.584,0.07-4.849c0.062-1.366,0.336-2.633,1.311-3.608 c0.975-0.975,2.242-1.249,3.608-1.311C8.416,2.174,8.796,2.162,12,2.162 M12,0C8.741,0,8.332,0.014,7.052,0.072 c-1.95,0.089-3.663,0.567-5.038,1.942C0.639,3.389,0.161,5.102,0.072,7.052C0.014,8.332,0,8.741,0,12 c0,3.259,0.014,3.668,0.072,4.948c0.089,1.95,0.567,3.663,1.942,5.038c1.375,1.375,3.088,1.853,5.038,1.942 C8.332,23.986,8.741,24,12,24s3.668-0.014,4.948-0.072c1.95-0.089,3.663-0.567,5.038-1.942c1.375-1.375,1.853-3.088,1.942-5.038 C23.986,15.668,24,15.259,24,12s-0.014-3.668-0.072-4.948c-0.089-1.95-0.567-3.663-1.942-5.038 c-1.375-1.375-3.088-1.853-5.038-1.942C15.668,0.014,15.259,0,12,0L12,0z"></path> <path data-color="color-2" d="M12,5.838c-3.403,0-6.162,2.759-6.162,6.162S8.597,18.162,12,18.162s6.162-2.759,6.162-6.162 S15.403,5.838,12,5.838z M12,16c-2.209,0-4-1.791-4-4s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z"></path> <circle data-color="color-2" cx="18.406" cy="5.594" r="1.44"></circle></g></svg></span> <span class="wprm-call-to-action-text-container"><span class="wprm-call-to-action-header" style="color: #333333;">Did you try this recipe?</span><span class="wprm-call-to-action-text">Mention <a href="https://www.instagram.com/siftandsimmer" target="_blank" rel="noreferrer noopener" style="color: #3498db">@siftandsimmer</a> or tag <a href="https://www.instagram.com/explore/tags/siftandsimmer" target="_blank" rel="noreferrer noopener" style="color: #3498db">#siftandsimmer</a>!</span></span></div></div></div>
+<!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/"
+    dc:identifier="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/"
+    dc:title="All-Natural Steamed Custard Buns (Lai Wong Bao)"
+    trackback:ping="https://www.siftandsimmer.com/steamed-custard-buns-lai-wong-bao/trackback/" />
+</rdf:RDF>-->
+</div><div class="feast-prev-next"><div class="feast-prev-post">&laquo; <a aria-label="Previous post: " href="https://www.siftandsimmer.com/cinnamon-pumpkin-rolls/" rel="prev">Cinnamon Pumpkin Rolls</a></div><div class="feast-next-post"><a aria-label="Next post: " href="https://www.siftandsimmer.com/matcha-brownie-mochi-brochi/" rel="next">Matcha Brownie Mochi (Brochi)</a> &raquo;</div></div><footer class="entry-footer"></footer></article><h2 class="screen-reader-text">Reader Interactions</h2><div class="entry-comments" id="comments"><h3>Comments</h3><ol class="comment-list">
+	<li class="comment even thread-even depth-1" id="comment-34">
+	<article id="article-comment-34">
+
+		
+		<header class="comment-header">
+			<p class="comment-author">
+				<span class="comment-author-name">heather (delicious not gorgeous)</span>			</p>
+
+			<p class="comment-meta"><time class="comment-time">December 07, 2017 at 11:10 am</time></p>		</header>
+
+		<div class="comment-content">
+			
+			<p>these used to be my favorite growing up! love that you avoided the custard powder. it sounds kind of icky, but it's also not readily available in grocery stores near me.</p>
+		</div>
+
+		<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-34' data-commentid="34" data-postid="1479" data-belowelement="article-comment-34" data-respondelement="respond" data-replyto="Reply to heather (delicious not gorgeous)" aria-label='Reply to heather (delicious not gorgeous)'>Reply</a></div>
+		
+	</article>
+	<ul class="children">
+
+	<li class="comment byuser comment-author-siftandsimmergmail-com bypostauthor odd alt depth-2" id="comment-35">
+	<article id="article-comment-35">
+
+		
+		<header class="comment-header">
+			<p class="comment-author">
+				<span class="comment-author-name">siftandsimmer@gmail.com</span>			</p>
+
+			<p class="comment-meta"><time class="comment-time">December 07, 2017 at 11:03 pm</time></p>		</header>
+
+		<div class="comment-content">
+			
+			<p>Hi Heather! Thanks for stopping by and commenting! I love your blog ... just subscribed 🙂 </p>
+<p>Yes, those buns are my kids' favourites, except I didn't like what was in the custard powder itself. It just tastes chalky and yellow. LOL. 😛 Really? You don't have Bird's Custard powder in the States?</p>
+		</div>
+
+		
+		
+	</article>
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li class="comment even thread-odd thread-alt depth-1" id="comment-36">
+	<article id="article-comment-36">
+
+		
+		<header class="comment-header">
+			<p class="comment-author">
+				<span class="comment-author-name">Jenny | The Baking Skillet</span>			</p>
+
+			<p class="comment-meta"><time class="comment-time">December 09, 2017 at 7:37 am</time></p>		</header>
+
+		<div class="comment-content">
+			
+			<p>This is making my water.. That filling looks so good. Someday soon I will buy a steamer and I will attempt to make these.</p>
+		</div>
+
+		<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-36' data-commentid="36" data-postid="1479" data-belowelement="article-comment-36" data-respondelement="respond" data-replyto="Reply to Jenny | The Baking Skillet" aria-label='Reply to Jenny | The Baking Skillet'>Reply</a></div>
+		
+	</article>
+	<ul class="children">
+
+	<li class="comment byuser comment-author-siftandsimmergmail-com bypostauthor odd alt depth-2" id="comment-37">
+	<article id="article-comment-37">
+
+		
+		<header class="comment-header">
+			<p class="comment-author">
+				<span class="comment-author-name">siftandsimmer@gmail.com</span>			</p>
+
+			<p class="comment-meta"><time class="comment-time">December 09, 2017 at 12:05 pm</time></p>		</header>
+
+		<div class="comment-content">
+			
+			<p>Thanks Jenny! 🙂 Definitely invest in a bamboo steamer for these -- you'll get the best results. You can still do it over a steam rack, but the buns may not turn out as nice.</p>
+		</div>
+
+		
+		
+	</article>
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ol></div>	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/steamed-custard-buns-lai-wong-bao/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://www.siftandsimmer.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><div class="comment-form-wprm-rating">
+	<label for="wprm-comment-rating-1613349313">Recipe Rating</label>
+	<span class="wprm-rating-stars">
+		
+		<fieldset class="wprm-comment-ratings-container">
+			<legend>Recipe Rating</legend>
+			<input aria-label="Don't rate this recipe" name="wprm-comment-rating" value="0" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="margin-left: -16px !important; width: 16px !important; height: 16px !important;" checked="checked">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+    <polygon class="wprm-star-empty" id="wprm-star-empty-0" fill="none" stroke="#343434" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,2.6 15,9 21.4,9 16.7,13.9 18.6,21.4 12,17.6 5.4,21.4 7.3,13.9 2.6,9 9,9" stroke-linejoin="miter"/>
+  </defs>
+	<use xlink:href="#wprm-star-empty-0" x="0" y="0" />
+	<use xlink:href="#wprm-star-empty-0" x="24" y="0" />
+	<use xlink:href="#wprm-star-empty-0" x="48" y="0" />
+	<use xlink:href="#wprm-star-empty-0" x="72" y="0" />
+	<use xlink:href="#wprm-star-empty-0" x="96" y="0" />
+</svg></span>
+			<br>
+			<input aria-label="Rate this recipe 1 out of 5 stars" name="wprm-comment-rating" value="1" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="width: 16px !important; height: 16px !important;">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+	<polygon class="wprm-star-empty" id="wprm-star-empty-1" fill="none" stroke="#343434" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,2.6 15,9 21.4,9 16.7,13.9 18.6,21.4 12,17.6 5.4,21.4 7.3,13.9 2.6,9 9,9" stroke-linejoin="miter"/>
+	<path class="wprm-star-full" id="wprm-star-full-1" fill="#343434" d="M12.712,1.942l2.969,6.015l6.638,0.965c0.651,0.095,0.911,0.895,0.44,1.354l-4.804,4.682l1.134,6.612c0.111,0.649-0.57,1.143-1.152,0.837L12,19.286l-5.938,3.122C5.48,22.714,4.799,22.219,4.91,21.57l1.134-6.612l-4.804-4.682c-0.471-0.459-0.211-1.26,0.44-1.354l6.638-0.965l2.969-6.015C11.579,1.352,12.421,1.352,12.712,1.942z"/>
+  </defs>
+	<use xlink:href="#wprm-star-full-1" x="0" y="0" />
+	<use xlink:href="#wprm-star-empty-1" x="24" y="0" />
+	<use xlink:href="#wprm-star-empty-1" x="48" y="0" />
+	<use xlink:href="#wprm-star-empty-1" x="72" y="0" />
+	<use xlink:href="#wprm-star-empty-1" x="96" y="0" />
+</svg></span>
+			<br>
+			<input aria-label="Rate this recipe 2 out of 5 stars" name="wprm-comment-rating" value="2" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="width: 16px !important; height: 16px !important;">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+	<polygon class="wprm-star-empty" id="wprm-star-empty-2" fill="none" stroke="#343434" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,2.6 15,9 21.4,9 16.7,13.9 18.6,21.4 12,17.6 5.4,21.4 7.3,13.9 2.6,9 9,9" stroke-linejoin="miter"/>
+	<path class="wprm-star-full" id="wprm-star-full-2" fill="#343434" d="M12.712,1.942l2.969,6.015l6.638,0.965c0.651,0.095,0.911,0.895,0.44,1.354l-4.804,4.682l1.134,6.612c0.111,0.649-0.57,1.143-1.152,0.837L12,19.286l-5.938,3.122C5.48,22.714,4.799,22.219,4.91,21.57l1.134-6.612l-4.804-4.682c-0.471-0.459-0.211-1.26,0.44-1.354l6.638-0.965l2.969-6.015C11.579,1.352,12.421,1.352,12.712,1.942z"/>
+  </defs>
+	<use xlink:href="#wprm-star-full-2" x="0" y="0" />
+	<use xlink:href="#wprm-star-full-2" x="24" y="0" />
+	<use xlink:href="#wprm-star-empty-2" x="48" y="0" />
+	<use xlink:href="#wprm-star-empty-2" x="72" y="0" />
+	<use xlink:href="#wprm-star-empty-2" x="96" y="0" />
+</svg></span>
+			<br>
+			<input aria-label="Rate this recipe 3 out of 5 stars" name="wprm-comment-rating" value="3" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="width: 16px !important; height: 16px !important;">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+	<polygon class="wprm-star-empty" id="wprm-star-empty-3" fill="none" stroke="#343434" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,2.6 15,9 21.4,9 16.7,13.9 18.6,21.4 12,17.6 5.4,21.4 7.3,13.9 2.6,9 9,9" stroke-linejoin="miter"/>
+	<path class="wprm-star-full" id="wprm-star-full-3" fill="#343434" d="M12.712,1.942l2.969,6.015l6.638,0.965c0.651,0.095,0.911,0.895,0.44,1.354l-4.804,4.682l1.134,6.612c0.111,0.649-0.57,1.143-1.152,0.837L12,19.286l-5.938,3.122C5.48,22.714,4.799,22.219,4.91,21.57l1.134-6.612l-4.804-4.682c-0.471-0.459-0.211-1.26,0.44-1.354l6.638-0.965l2.969-6.015C11.579,1.352,12.421,1.352,12.712,1.942z"/>
+  </defs>
+	<use xlink:href="#wprm-star-full-3" x="0" y="0" />
+	<use xlink:href="#wprm-star-full-3" x="24" y="0" />
+	<use xlink:href="#wprm-star-full-3" x="48" y="0" />
+	<use xlink:href="#wprm-star-empty-3" x="72" y="0" />
+	<use xlink:href="#wprm-star-empty-3" x="96" y="0" />
+</svg></span>
+			<br>
+			<input aria-label="Rate this recipe 4 out of 5 stars" name="wprm-comment-rating" value="4" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="width: 16px !important; height: 16px !important;">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+	<polygon class="wprm-star-empty" id="wprm-star-empty-4" fill="none" stroke="#343434" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,2.6 15,9 21.4,9 16.7,13.9 18.6,21.4 12,17.6 5.4,21.4 7.3,13.9 2.6,9 9,9" stroke-linejoin="miter"/>
+	<path class="wprm-star-full" id="wprm-star-full-4" fill="#343434" d="M12.712,1.942l2.969,6.015l6.638,0.965c0.651,0.095,0.911,0.895,0.44,1.354l-4.804,4.682l1.134,6.612c0.111,0.649-0.57,1.143-1.152,0.837L12,19.286l-5.938,3.122C5.48,22.714,4.799,22.219,4.91,21.57l1.134-6.612l-4.804-4.682c-0.471-0.459-0.211-1.26,0.44-1.354l6.638-0.965l2.969-6.015C11.579,1.352,12.421,1.352,12.712,1.942z"/>
+  </defs>
+	<use xlink:href="#wprm-star-full-4" x="0" y="0" />
+	<use xlink:href="#wprm-star-full-4" x="24" y="0" />
+	<use xlink:href="#wprm-star-full-4" x="48" y="0" />
+	<use xlink:href="#wprm-star-full-4" x="72" y="0" />
+	<use xlink:href="#wprm-star-empty-4" x="96" y="0" />
+</svg></span>
+			<br>
+			<input aria-label="Rate this recipe 5 out of 5 stars" id="wprm-comment-rating-1613349313" name="wprm-comment-rating" value="5" type="radio" onclick="WPRecipeMaker.rating.onClick(this)" style="width: 16px !important; height: 16px !important;">
+			<span aria-hidden="true" style="width: 80px !important; height: 16px !important;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="80px" height="16px" viewBox="0 0 120 24">
+  <defs>
+	<path class="wprm-star-full" id="wprm-star-full-5" fill="#343434" d="M12.712,1.942l2.969,6.015l6.638,0.965c0.651,0.095,0.911,0.895,0.44,1.354l-4.804,4.682l1.134,6.612c0.111,0.649-0.57,1.143-1.152,0.837L12,19.286l-5.938,3.122C5.48,22.714,4.799,22.219,4.91,21.57l1.134-6.612l-4.804-4.682c-0.471-0.459-0.211-1.26,0.44-1.354l6.638-0.965l2.969-6.015C11.579,1.352,12.421,1.352,12.712,1.942z"/>
+  </defs>
+	<use xlink:href="#wprm-star-full-5" x="0" y="0" />
+	<use xlink:href="#wprm-star-full-5" x="24" y="0" />
+	<use xlink:href="#wprm-star-full-5" x="48" y="0" />
+	<use xlink:href="#wprm-star-full-5" x="72" y="0" />
+	<use xlink:href="#wprm-star-full-5" x="96" y="0" />
+</svg></span>
+		</fieldset>
+	</span>
+</div>
+<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='1479' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e9355240ca" /></p><input type="hidden" id="ak_js" name="ak_js" value="74"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p></main><aside class="sidebar sidebar-primary widget-area" role="complementary" aria-label="Primary Sidebar" id="genesis-sidebar-primary"><h2 class="genesis-sidebar-title screen-reader-text">Primary Sidebar</h2><section id="user-profile-2" class="widget user-profile"><div class="widget-wrap"><h3 class="widgettitle widget-title">About Me</h3>
+<p><span class="alignleft"><img alt='' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20125%20125'%3E%3C/svg%3E" data-lazy-srcset='https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=250&#038;d=mm&#038;r=g 2x' class='avatar avatar-125 photo' height='125' width='125' data-lazy-src="https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=125&#038;d=mm&#038;r=g" /><noscript><img alt='' src='https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=125&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ab3b0fda8f7dadc6c6bed5acda9ca22b?s=250&#038;d=mm&#038;r=g 2x' class='avatar avatar-125 photo' height='125' width='125' /></noscript></span>My name is Michelle and Sift & Simmer is a food recipe blog featuring easy, creative and delicious recipes. I believe that the best food is made from scratch. <a class="pagelink" href="https://www.siftandsimmer.com/about/">Read More…</a></p>
+</div></section>
+<section id="enews-ext-2" class="widget enews-widget"><div class="widget-wrap"><div class="enews enews-2-fields"><h3 class="widgettitle widget-title">Subscribe for Latest recipes</h3>
+			<form id="subscribeenews-ext-2" class="enews-form" action="#" method="post"
+				 target="_blank" 				name="enews-ext-2"
+			>
+									<input type="text" id="subbox1" class="enews-subbox enews-fname" value="" aria-label="First Name" placeholder="First Name" name="FNAME" />								<input type="email" value="" id="subbox" class="enews-email" aria-label="E-Mail Address" placeholder="E-Mail Address" name="EMAIL"
+																																			required="required" />
+								<input type="submit" value="Go" id="subbutton" class="enews-submit" />
+			</form>
+		</div></div></section>
+<section id="search-2" class="widget widget_search"><div class="widget-wrap"><form class="search-form" method="get" action="https://www.siftandsimmer.com/" role="search"><label class="search-form-label screen-reader-text" for="searchform-3">Search</label><input class="search-form-input" type="search" name="s" id="searchform-3" placeholder="Search"><input class="search-form-submit" type="submit" value="Search"><meta content="https://www.siftandsimmer.com/?s={s}"></form></div></section>
+<section id="simple-social-icons-2" class="widget simple-social-icons"><div class="widget-wrap"><h3 class="widgettitle widget-title">Follow Me</h3>
+<ul class="aligncenter"><li class="ssi-facebook"><a href="https://www.facebook.com/siftandsimmer/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-facebook" aria-labelledby="social-facebook-2"><title id="social-facebook-2">Facebook</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-facebook"></use></svg></a></li><li class="ssi-instagram"><a href="http://www.instagram.com/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-instagram" aria-labelledby="social-instagram-2"><title id="social-instagram-2">Instagram</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-instagram"></use></svg></a></li><li class="ssi-pinterest"><a href="http://www.pinterest.ca/siftandsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-pinterest" aria-labelledby="social-pinterest-2"><title id="social-pinterest-2">Pinterest</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-pinterest"></use></svg></a></li><li class="ssi-rss"><a href="https://www.siftandsimmer.com/feed/" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-rss" aria-labelledby="social-rss-2"><title id="social-rss-2">RSS</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-rss"></use></svg></a></li><li class="ssi-youtube"><a href="https://www.youtube.com/c/siftsimmer" target="_blank" rel="noopener noreferrer"><svg role="img" class="social-youtube" aria-labelledby="social-youtube-2"><title id="social-youtube-2">YouTube</title><use xlink:href="https://www.siftandsimmer.com/wp-content/plugins/simple-social-icons/symbol-defs.svg#social-youtube"></use></svg></a></li></ul></div></section>
+<section id="featured-post-2" class="widget featured-content featuredpost"><div class="widget-wrap"><h3 class="widgettitle widget-title">Popular Recipes</h3>
+<article class="simple-grid one-half odd first post-14769 post type-post status-publish format-standard has-post-thumbnail category-drinks category-matcha entry" aria-label="Layered Strawberry Matcha Latte"><a href="https://www.siftandsimmer.com/layered-strawberry-matcha-latte/" title="Layered Strawberry Matcha Latte" class="aligncenter"><img width="360" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20480'%3E%3C/svg%3E" class="entry-image attachment-post" alt="" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-180x240.jpg 180w" data-lazy-sizes="(max-width: 360px) 100vw, 360px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-360x480.jpg" /><noscript><img width="360" height="480" src="https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-360x480.jpg" class="entry-image attachment-post" alt="" srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/07/IMG_0531-4-180x240.jpg 180w" sizes="(max-width: 360px) 100vw, 360px" /></noscript></a><header class="entry-header"><h2 class="entry-title"><a href="https://www.siftandsimmer.com/layered-strawberry-matcha-latte/">Layered Strawberry Matcha Latte</a></h2></header></article><article class="simple-grid one-half post-14444 post type-post status-publish format-standard has-post-thumbnail category-breads-buns category-breakfast category-matcha entry" aria-label="Matcha Shokupan (Japanese Milk Bread)"><a href="https://www.siftandsimmer.com/matcha-shokupan-japanese-milk-bread/" title="Matcha Shokupan (Japanese Milk Bread)" class="aligncenter"><img width="360" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20480'%3E%3C/svg%3E" class="entry-image attachment-post" alt="" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-180x240.jpg 180w" data-lazy-sizes="(max-width: 360px) 100vw, 360px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-360x480.jpg" /><noscript><img width="360" height="480" src="https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-360x480.jpg" class="entry-image attachment-post" alt="" srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/05/IMG_0200-180x240.jpg 180w" sizes="(max-width: 360px) 100vw, 360px" /></noscript></a><header class="entry-header"><h2 class="entry-title"><a href="https://www.siftandsimmer.com/matcha-shokupan-japanese-milk-bread/">Matcha Shokupan (Japanese Milk Bread)</a></h2></header></article><article class="simple-grid one-half odd first post-13728 post type-post status-publish format-standard has-post-thumbnail category-drinks category-matcha entry" aria-label="Iced Matcha Pandan Latte"><a href="https://www.siftandsimmer.com/iced-matcha-pandan-latte/" title="Iced Matcha Pandan Latte" class="aligncenter"><img width="360" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20480'%3E%3C/svg%3E" class="entry-image attachment-post" alt="" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-180x240.jpg 180w" data-lazy-sizes="(max-width: 360px) 100vw, 360px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-360x480.jpg" /><noscript><img width="360" height="480" src="https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-360x480.jpg" class="entry-image attachment-post" alt="" srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/04/IMG_8041-180x240.jpg 180w" sizes="(max-width: 360px) 100vw, 360px" /></noscript></a><header class="entry-header"><h2 class="entry-title"><a href="https://www.siftandsimmer.com/iced-matcha-pandan-latte/">Iced Matcha Pandan Latte</a></h2></header></article><article class="simple-grid one-half post-12951 post type-post status-publish format-standard has-post-thumbnail category-breakfast category-desserts category-matcha entry" aria-label="Matcha Strawberry Fruit Sando"><a href="https://www.siftandsimmer.com/matcha-strawberry-fruit-sando/" title="Matcha Strawberry Fruit Sando" class="aligncenter"><img width="360" height="480" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20480'%3E%3C/svg%3E" class="entry-image attachment-post" alt="" data-lazy-srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-180x240.jpg 180w" data-lazy-sizes="(max-width: 360px) 100vw, 360px" data-lazy-src="https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-360x480.jpg" /><noscript><img width="360" height="480" src="https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-360x480.jpg" class="entry-image attachment-post" alt="" srcset="https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-360x480.jpg 360w, https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-720x960.jpg 720w, https://www.siftandsimmer.com/wp-content/uploads/2021/03/matcha-strawberry-fruit-sando3-180x240.jpg 180w" sizes="(max-width: 360px) 100vw, 360px" /></noscript></a><header class="entry-header"><h2 class="entry-title"><a href="https://www.siftandsimmer.com/matcha-strawberry-fruit-sando/">Matcha Strawberry Fruit Sando</a></h2></header></article></div></section>
+</aside></div></div><footer class="site-footer"><div class="wrap"><h2 class='screen-reader-text'>Footer</h2>
+<div class='feast-modern-footer'>
+<p class="has-text-align-center feast-button has-white-color has-text-color"><a href="#">↑ back to top</a></p>
+
+
+
+<div class="wp-block-columns">
+<div class="wp-block-column">
+<h3>About</h3>
+
+
+
+<p><a href="https://www.siftandsimmer.com/about/">About</a></p>
+
+
+
+<p><a href="https://www.siftandsimmer.com/privacy/">Privacy Policy</a></p>
+
+
+
+<p></p>
+</div>
+
+
+
+<div class="wp-block-column">
+<h3>Newsletter</h3>
+
+
+
+<p><a href="https://www.siftandsimmer.com/subscribe/">Subscribe</a> for the latest recipes and updates directly to your inbox!</p>
+</div>
+
+
+
+<div class="wp-block-column">
+<h3>Contact</h3>
+
+
+
+<p><a href="https://www.siftandsimmer.com/contact-us/">Contact</a></p>
+</div>
+</div>
+
+
+
+<p class="has-text-align-center">Copyright ©&nbsp;2021 Sift &amp; Simmer</p>
+
+
+
+<p class="has-text-align-center">All images and content are copyright protected. Do not use without prior permission.</p>
+</div></div></footer></div><style type="text/css" media="screen"> #simple-social-icons-3 ul li a, #simple-social-icons-3 ul li a:hover, #simple-social-icons-3 ul li a:focus { background-color: #ffffff !important; border-radius: 3px; color: #000000 !important; border: 0px #ffffff solid !important; font-size: 15px; padding: 8px; }  #simple-social-icons-3 ul li a:hover, #simple-social-icons-3 ul li a:focus { background-color: #ffffff !important; border-color: #ffffff !important; color: #b49543 !important; }  #simple-social-icons-3 ul li a:focus { outline: 1px dotted #ffffff !important; } #simple-social-icons-4 ul li a, #simple-social-icons-4 ul li a:hover, #simple-social-icons-4 ul li a:focus { background-color: #ffffff !important; border-radius: 3px; color: #000000 !important; border: 0px #ffffff solid !important; font-size: 18px; padding: 9px; }  #simple-social-icons-4 ul li a:hover, #simple-social-icons-4 ul li a:focus { background-color: #ffffff !important; border-color: #ffffff !important; color: #b49543 !important; }  #simple-social-icons-4 ul li a:focus { outline: 1px dotted #ffffff !important; } #simple-social-icons-2 ul li a, #simple-social-icons-2 ul li a:hover, #simple-social-icons-2 ul li a:focus { background-color: #ffffff !important; border-radius: 3px; color: #000000 !important; border: 0px #ffffff solid !important; font-size: 18px; padding: 9px; }  #simple-social-icons-2 ul li a:hover, #simple-social-icons-2 ul li a:focus { background-color: #ffffff !important; border-color: #ffffff !important; color: #b49543 !important; }  #simple-social-icons-2 ul li a:focus { outline: 1px dotted #ffffff !important; }</style><link rel='stylesheet' id='wprm-public-css'  href='https://www.siftandsimmer.com/wp-content/plugins/wp-recipe-maker/dist/public-modern.css?ver=7.5.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wprmp-public-css'  href='https://www.siftandsimmer.com/wp-content/plugins/wp-recipe-maker-premium/dist/public-pro.css?ver=7.5.0' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-shared.js?ver=2.16.1' id='lazyload-video-js-js' defer></script>
+<script type='text/javascript' id='lazyload-youtube-js-js-before'>
+window.llvConfig=window.llvConfig||{};window.llvConfig.youtube={"colour":"red","buttonstyle":"","controls":true,"loadpolicy":true,"thumbnailquality":"0","preroll":"","postroll":"","overlaytext":"","loadthumbnail":true,"cookies":false,"callback":"<!--YOUTUBE_CALLBACK-->"};
+</script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-youtube.js?ver=2.16.1' id='lazyload-youtube-js-js' defer></script>
+<script type='text/javascript' id='lazyload-vimeo-js-js-before'>
+window.llvConfig=window.llvConfig||{};window.llvConfig.vimeo={"buttonstyle":"","playercolour":"","preroll":"","postroll":"","show_title":false,"overlaytext":"","loadthumbnail":true,"thumbnailquality":false,"callback":"<!--VIMEO_CALLBACK-->"};
+</script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-vimeo.js?ver=2.16.1' id='lazyload-vimeo-js-js' defer></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-includes/js/comment-reply.min.js?ver=5.7.1' id='comment-reply-js' defer></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/themes/genesis/lib/js/skip-links.min.js?ver=3.3.3' id='skip-links-js' defer></script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/official-mailerlite-sign-up-forms/assets/js/jquery.validate.min.js?ver=5.7.1' id='jquery-validation-plugin-js' defer></script>
+<script type='text/javascript' id='wprm-public-js-extra'>
+/* <![CDATA[ */
+var wprm_public = {"endpoints":{"analytics":"https:\/\/www.siftandsimmer.com\/wp-json\/wp-recipe-maker\/v1\/analytics"},"settings":{"features_comment_ratings":true,"template_color_comment_rating":"#343434","instruction_media_toggle_default":"on","video_force_ratio":false,"analytics_enabled":false,"print_new_tab":true},"post_id":"1479","home_url":"https:\/\/www.siftandsimmer.com\/","print_slug":"wprm_print","permalinks":"\/%postname%\/","ajax_url":"https:\/\/www.siftandsimmer.com\/wp-admin\/admin-ajax.php","nonce":"7d25b14fcd","api_nonce":"b488bc1c3c","translations":[]};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/wp-recipe-maker/dist/public-modern.js?ver=7.5.0' id='wprm-public-js' defer></script>
+<script type='text/javascript' id='wprmp-public-js-extra'>
+/* <![CDATA[ */
+var wprmp_public = {"settings":{"recipe_template_mode":"modern","features_adjustable_servings":true,"adjustable_servings_round_to_decimals":"0","fractions_enabled":false,"fractions_use_mixed":true,"fractions_use_symbols":true,"fractions_max_denominator":"8","decimal_separator":"point","features_comment_ratings":true,"features_user_ratings":false,"user_ratings_thank_you_message":"Thank you for voting!","user_ratings_force_comment":"never","user_ratings_force_comment_scroll_to":"","servings_changer_display":"tooltip_slider","template_ingredient_list_style":"disc","template_instruction_list_style":"decimal","template_color_icon":"#343434"},"timer":{"sound_dir":"https:\/\/www.siftandsimmer.com\/wp-content\/plugins\/wp-recipe-maker-premium\/dist\/","text":{"start_timer":"Click to Start Timer"},"icons":{"pause":"<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" x=\"0px\" y=\"0px\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\"><g ><path fill=\"#fffefe\" d=\"M9,2H4C3.4,2,3,2.4,3,3v18c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V3C10,2.4,9.6,2,9,2z\"\/><path fill=\"#fffefe\" d=\"M20,2h-5c-0.6,0-1,0.4-1,1v18c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V3C21,2.4,20.6,2,20,2z\"\/><\/g><\/svg>","play":"<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" x=\"0px\" y=\"0px\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\"><g ><path fill=\"#fffefe\" d=\"M6.6,2.2C6.3,2,5.9,1.9,5.6,2.1C5.2,2.3,5,2.6,5,3v18c0,0.4,0.2,0.7,0.6,0.9C5.7,22,5.8,22,6,22c0.2,0,0.4-0.1,0.6-0.2l12-9c0.3-0.2,0.4-0.5,0.4-0.8s-0.1-0.6-0.4-0.8L6.6,2.2z\"\/><\/g><\/svg>","close":"<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" x=\"0px\" y=\"0px\" width=\"24px\" height=\"24px\" viewBox=\"0 0 24 24\"><g ><path fill=\"#fffefe\" d=\"M22.7,4.3l-3-3c-0.4-0.4-1-0.4-1.4,0L12,7.6L5.7,1.3c-0.4-0.4-1-0.4-1.4,0l-3,3c-0.4,0.4-0.4,1,0,1.4L7.6,12l-6.3,6.3c-0.4,0.4-0.4,1,0,1.4l3,3c0.4,0.4,1,0.4,1.4,0l6.3-6.3l6.3,6.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3l3-3c0.4-0.4,0.4-1,0-1.4L16.4,12l6.3-6.3C23.1,5.3,23.1,4.7,22.7,4.3z\"\/><\/g><\/svg>"}},"recipe_submission":{"max_file_size":536870912,"text":{"image_size":"The image file is too large"}}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/wp-recipe-maker-premium/dist/public-pro.js?ver=7.5.0' id='wprmp-public-js' defer></script>
+<script defer type='text/javascript' src='https://www.siftandsimmer.com/wp-content/plugins/akismet/_inc/form.js?ver=4.1.10' id='akismet-form-js'></script>
+<style type="text/css">.wprm-recipe-template-siftsimmertemplate {
+    margin: 20px auto;
+    background-color: #fafafa; /*wprm_background type=color*/
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /*wprm_main_font_family type=font*/
+    font-size: 0.9em; /*wprm_main_font_size type=font_size*/
+    line-height: 1.5em !important; /*wprm_main_line_height type=font_size*/
+    color: #333333; /*wprm_main_text type=color*/
+    max-width: 650px; /*wprm_max_width type=size*/
+}
+.wprm-recipe-template-siftsimmertemplate a {
+    color: #217db7; /*wprm_link type=color*/
+}
+.wprm-recipe-template-siftsimmertemplate p, .wprm-recipe-template-siftsimmertemplate li {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /*wprm_main_font_family type=font*/
+    font-size: 1em !important;
+    line-height: 1.5em !important; /*wprm_main_line_height type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate li {
+    margin: 0 0 0 32px !important;
+    padding: 0 !important;
+}
+.rtl .wprm-recipe-template-siftsimmertemplate li {
+    margin: 0 32px 0 0 !important;
+}
+.wprm-recipe-template-siftsimmertemplate ol, .wprm-recipe-template-siftsimmertemplate ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.wprm-recipe-template-siftsimmertemplate br {
+    display: none;
+}
+.wprm-recipe-template-siftsimmertemplate .wprm-recipe-name,
+.wprm-recipe-template-siftsimmertemplate .wprm-recipe-header {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /*wprm_header_font_family type=font*/
+    color: #212121; /*wprm_header_text type=color*/
+    line-height: 1.3em; /*wprm_header_line_height type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h1,
+.wprm-recipe-template-siftsimmertemplate h2,
+.wprm-recipe-template-siftsimmertemplate h3,
+.wprm-recipe-template-siftsimmertemplate h4,
+.wprm-recipe-template-siftsimmertemplate h5,
+.wprm-recipe-template-siftsimmertemplate h6 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /*wprm_header_font_family type=font*/
+    color: #212121; /*wprm_header_text type=color*/
+    line-height: 1.3em; /*wprm_header_line_height type=font_size*/
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.wprm-recipe-template-siftsimmertemplate .wprm-recipe-header {
+    margin-top: 1.2em !important;
+}
+.wprm-recipe-template-siftsimmertemplate h1 {
+    font-size: 2em; /*wprm_h1_size type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h2 {
+    font-size: 1.8em; /*wprm_h2_size type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h3 {
+    font-size: 1.2em; /*wprm_h3_size type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h4 {
+    font-size: 1em; /*wprm_h4_size type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h5 {
+    font-size: 1em; /*wprm_h5_size type=font_size*/
+}
+.wprm-recipe-template-siftsimmertemplate h6 {
+    font-size: 1em; /*wprm_h6_size type=font_size*/
+}.wprm-recipe-template-siftsimmertemplate {
+	border-style: solid; /*wprm_border_style type=border*/
+	border-width: 1px; /*wprm_border_width type=size*/
+	border-color: #777777; /*wprm_border type=color*/
+	border-radius: 0px; /*wprm_border_radius type=size*/
+	padding: 10px;
+}.wprm-recipe-template-snippet-basic {
+    font-family: inherit; /* wprm_font_family type=font */
+    font-size: 1em; /* wprm_font_size type=font_size */
+    text-align: center; /* wprm_text_align type=align */
+    margin-top: 0px; /* wprm_margin_top type=size */
+    margin-bottom: 15px; /* wprm_margin_bottom type=size */
+}</style>
+		<!-- Cookie Notice plugin v2.1.2 by Hu-manity.co https://hu-manity.co/ -->
+		<div id="cookie-notice" role="banner" class="cookie-notice-hidden cookie-revoke-hidden cn-position-top" aria-label="Cookie Notice" style="background-color: rgba(0,0,0,0.9);"><div class="cookie-notice-container" style="color: #fff;"><span id="cn-notice-text" class="cn-text-container">We use cookies to ensure that we give you the best experience on our website. If you continue to use this site we will assume that you are happy with it.</span><span id="cn-notice-buttons" class="cn-buttons-container"><a href="#" id="cn-accept-cookie" data-cookie-set="accept" class="cn-set-cookie cn-button bootstrap" aria-label="OK">OK</a><a href="https://www.siftandsimmer.com/privacy/" target="_blank" id="cn-more-info" class="cn-more-info cn-button bootstrap" aria-label="Privacy Policy">Privacy Policy</a></span><a href="javascript:void(0);" id="cn-close-notice" data-cookie-set="accept" class="cn-close-icon" aria-label="OK"></a></div>
+			
+		</div>
+		<!-- / Cookie Notice plugin --><script>window.lazyLoadOptions={elements_selector:"img[data-lazy-src],.rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}};window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://www.siftandsimmer.com/wp-content/plugins/wp-rocket/assets/js/lazyload/16.1/lazyload.min.js"></script>
+        </body></html>
+
+<!-- Page retrieved from BigScoots Cache's fallback cache - page generated @ 2021-08-20 21:13:16 - fallback cache expiration @ never expires - cache key 939afcd2d4f68aae9faff76ccd968870092b14e4.html -->
